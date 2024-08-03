@@ -17,11 +17,20 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.Update();
 
-        player.setVelocity(xInput * player.moveSpeed, rb.velocity.y);
+        if (Time.time < player.primaryAttack.lastTimeAttack + 0.12f && player.primaryAttack.comboCounter != 3)
+        {
+            Debug.Log("low speed");
+            player.setVelocity(xInput * player.moveSpeed * 0.4f, rb.velocity.y);
+        }
+        else
+        {
+            player.setVelocity(xInput * player.moveSpeed, rb.velocity.y);
+        }
 
         if (xInput == 0)
         {
-            player.stateMachine.changeState(player.idleState);
+            stateMachine.changeState(player.idleState);
+            return;
         }
     }
 

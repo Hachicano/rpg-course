@@ -4,9 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Attack Info")]
+    public Vector2[] attackMovement;
+
+    public bool isBusy { get; private set; }
+
     [Header("Move Info")]
     public float moveSpeed = 12f;
     public float jumpForce = 14f;
+
+    [Header("Dash Info")]
+    [SerializeField] private float dashCooldown;
+    private float dashUsageTimer;
+    public float dashSpeed = 25f;
+    public float dashDuration = 0.2f;
+    public float dashDir { get; private set; } = 1;
 
     [Header("Collision Info")]
     [SerializeField] private Transform groundCheck;
@@ -14,7 +26,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform wallCheck;
     [SerializeField] private float wallCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
-    [SerializeField] private LayerMask whatIsWall;
 
     public int facingDir { get; private set; } = 1;
     private bool facingRight = true;
@@ -30,6 +41,11 @@ public class Player : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirborneState airborneState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
+    public PlayerWallSlideState wallSlideState { get; private set; }
+    public PlayerWallJumpState wallJumpState { get; private set; }
+
+    public PlayerPrimaryAttackState primaryAttack { get; private set; }
 
     #endregion
 
@@ -41,6 +57,11 @@ public class Player : MonoBehaviour
         moveState = new PlayerMoveState(this, stateMachine, "Move");
         jumpState = new PlayerJumpState(this, stateMachine, "Jump");
         airborneState = new PlayerAirborneState(this, stateMachine, "Jump");
+        dashState = new PlayerDashState(this, stateMachine, "Dash");
+        wallSlideState = new PlayerWallSlideState(this, stateMachine, "WallSlide");
+        wallJumpState = new PlayerWallJumpState(this, stateMachine, "Jump");
+
+        primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
     }
 
     private void Start()
@@ -54,17 +75,53 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Update();
+        checkForDashInput();
     }
+
+    public IEnumerator BusyFor(float _seconds)
+    {
+        isBusy = true;
+
+        yield return new WaitForSeconds(_seconds);
+
+        isBusy = false;
+    }
+
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
+    private void checkForDashInput()
+    {
+        dashUsageTimer -= Time.deltaTime;
+
+        if (IsWallDetected() && !IsGoundDetected())
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer < 0)
+        {
+            dashUsageTimer = dashCooldown;
+            dashDir = Input.GetAxisRaw("Horizontal");
+
+            if (dashDir == 0)
+                dashDir = facingDir;
+
+            stateMachine.changeState(dashState);
+        }
+    }
+    #region Velocity
+    public void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
 
     public void setVelocity(float _xVelocity, float _yVelocity)
     {
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }
+    #endregion
+    #region Collision
 
     public bool IsGoundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-
-    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right, wallCheckDistance, whatIsWall);
+    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
 
 
     private void OnDrawGizmos()
@@ -72,7 +129,8 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
     }
-
+    #endregion
+    #region Flip
     protected virtual void Flip()
     {
         facingDir = facingDir * -1;
@@ -90,4 +148,5 @@ public class Player : MonoBehaviour
             Flip();
         }
     }
+    #endregion
 }

@@ -22,8 +22,21 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            stateMachine.changeState(player.primaryAttack);
+            return;
+        }
+
+        if (!player.IsGoundDetected()) 
+        {
+            stateMachine.changeState(player.airborneState);
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && player.IsGoundDetected()) {
             stateMachine.changeState(player.jumpState);
+            return;
         }
     }
 }

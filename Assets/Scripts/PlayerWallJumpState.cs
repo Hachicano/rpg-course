@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAirborneState : PlayerState
+public class PlayerWallJumpState : PlayerState
 {
-    public PlayerAirborneState(Player _player, PlayerStateMachine _stateMachine, string __animBoolName) : base(_player, _stateMachine, __animBoolName)
+    public PlayerWallJumpState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
+
+        stateTimer = 1f;
+        player.setVelocity(5 * -player.facingDir, player.jumpForce);
     }
 
     public override void Exit()
@@ -22,22 +25,16 @@ public class PlayerAirborneState : PlayerState
     {
         base.Update();
 
-        player.setVelocity(xInput * player.moveSpeed, rb.velocity.y);
-
-        if (player.IsWallDetected())
+        if (stateTimer < 0)
         {
-            stateMachine.changeState(player.wallSlideState);
+            stateMachine.changeState(player.airborneState);
             return;
         }
+
         if (player.IsGoundDetected())
         {
             stateMachine.changeState(player.idleState);
             return;
-        }
-
-        if (xInput != 0)
-        {
-            player.setVelocity(player.moveSpeed * .9f * xInput, rb.velocity.y);
         }
     }
 }

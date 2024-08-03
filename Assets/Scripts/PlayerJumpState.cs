@@ -11,7 +11,6 @@ public class PlayerJumpState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
         player.setVelocity(rb.velocity.x, player.jumpForce);
     }
 
@@ -27,6 +26,7 @@ public class PlayerJumpState : PlayerState
         if (rb.velocity.y < 0)
         {
             stateMachine.changeState(player.airborneState);
+            return;
         }
     }
 }
