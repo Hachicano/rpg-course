@@ -17,9 +17,10 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.Update();
 
+        
         if (Time.time < player.primaryAttack.lastTimeAttack + 0.12f && player.primaryAttack.comboCounter != 3)
         {
-            Debug.Log("low speed");
+            // Debug.Log("low speed");
             player.setVelocity(xInput * player.moveSpeed * 0.4f, rb.velocity.y);
         }
         else

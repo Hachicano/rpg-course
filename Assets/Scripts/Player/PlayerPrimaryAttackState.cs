@@ -7,6 +7,7 @@ public class PlayerPrimaryAttackState : PlayerState
     public int comboCounter {  get; private set; }
 
     public float lastTimeAttack { get; private set; }
+    private float attackDir;
     private float comboWindow = 2;
     private float inertiaWindow = 0.12f;
 
@@ -17,6 +18,7 @@ public class PlayerPrimaryAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        xInput = 0;
         comboCounter = comboCounter % 3;
         if (Time.time >= lastTimeAttack + comboWindow)
         {
@@ -25,10 +27,13 @@ public class PlayerPrimaryAttackState : PlayerState
         player.anim.SetInteger("comboCounter", comboCounter);
         // player.anim.speed = 1.2f; // ÐÞ¸Ä¹¥ËÙ
 
-        float attackDir = player.facingDir;
         if (xInput != 0)
         {
             attackDir = xInput;
+        }
+        else
+        {
+            attackDir = player.facingDir;
         }
 
         player.setVelocity(player.attackMovement[comboCounter].x * attackDir, player.attackMovement[comboCounter].y);
@@ -53,7 +58,7 @@ public class PlayerPrimaryAttackState : PlayerState
 
         if (stateTimer < 0)
         {
-            player.ZeroVelocity();
+            player.setZeroVelocity();
         }
 
         if (triggerCalled)

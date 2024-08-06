@@ -11,7 +11,7 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        player.ZeroVelocity(); // 做冰面的话另算，就不在在里将速度置为0，应该改在PlayerGroundState中置0
+        player.setZeroVelocity(); // 做冰面的话另算，就不在在里将速度置为0，应该改在PlayerGroundState中置0
     }
 
     public override void Update()

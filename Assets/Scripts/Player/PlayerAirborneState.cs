@@ -37,7 +37,7 @@ public class PlayerAirborneState : PlayerState
 
         if (xInput != 0)
         {
-            player.setVelocity(player.moveSpeed * .9f * xInput, rb.velocity.y);
+            player.setVelocity(player.moveSpeed * .95f * xInput, rb.velocity.y);
         }
     }
 }

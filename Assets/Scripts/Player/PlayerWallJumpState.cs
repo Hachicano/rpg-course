@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerWallJumpState : PlayerState
 {
+    private float wallJumpWindow = 0.6f;
+
     public PlayerWallJumpState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
@@ -12,8 +14,8 @@ public class PlayerWallJumpState : PlayerState
     {
         base.Enter();
 
-        stateTimer = 1f;
-        player.setVelocity(5 * -player.facingDir, player.jumpForce);
+        stateTimer = wallJumpWindow;
+        player.setVelocity(player.moveSpeed * -player.facingDir * 0.8f, player.jumpForce);
     }
 
     public override void Exit()
