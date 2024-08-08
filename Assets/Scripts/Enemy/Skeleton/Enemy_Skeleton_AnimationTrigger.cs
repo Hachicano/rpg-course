@@ -8,7 +8,7 @@ public class Enemy_Skeleton_AnimationTrigger : MonoBehaviour
 
     private void AnimationTrigger()
     {
-        enemy.AnimationTrigger();
+        enemy.AnimationFinishTrigger();
     }
 
 
@@ -23,5 +23,9 @@ public class Enemy_Skeleton_AnimationTrigger : MonoBehaviour
             }
         }
     }
+
+    private void OpenCounterWindow() => enemy.OpenCounterAttackWindow();
+
+    private void CloseCounterWindow() => enemy.CloseCounterAttackWindow();
 
 }

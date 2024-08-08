@@ -6,6 +6,7 @@ public class Player : Entity
 {
     [Header("Attack Info")]
     public Vector2[] attackMovement;
+    public float counterAttackDuration = .2f;
 
     public bool isBusy { get; private set; }
 
@@ -14,8 +15,8 @@ public class Player : Entity
     public float jumpForce = 14f;
 
     [Header("Dash Info")]
-    [SerializeField] private float dashCooldown;
-    private float dashUsageTimer;
+    // [SerializeField] private float dashCooldown;
+    // private float dashUsageTimer;
     public float dashSpeed = 25f;
     public float dashDuration = 0.2f;
     public float dashDir { get; private set; } = 1;
@@ -29,8 +30,8 @@ public class Player : Entity
     public PlayerDashState dashState { get; private set; }
     public PlayerWallSlideState wallSlideState { get; private set; }
     public PlayerWallJumpState wallJumpState { get; private set; }
-
     public PlayerPrimaryAttackState primaryAttack { get; private set; }
+    public PlayerCounterAttackState counterAttack { get; private set; }
 
     #endregion
 
@@ -47,6 +48,7 @@ public class Player : Entity
         wallSlideState = new PlayerWallSlideState(this, stateMachine, "WallSlide");
         wallJumpState = new PlayerWallJumpState(this, stateMachine, "Jump");
         primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
+        counterAttack = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
     }
 
     protected override void Start()
@@ -75,12 +77,24 @@ public class Player : Entity
 
     private void checkForDashInput()
     {
-        dashUsageTimer -= Time.deltaTime;
-
         if (IsWallDetected() && !IsGoundDetected())
         {
             return;
         }
+
+        // Skill ManagerÐ´·¨
+        if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
+        {
+            dashDir = Input.GetAxisRaw("Horizontal");
+
+            if (dashDir == 0)
+                dashDir = facingDir;
+
+            stateMachine.changeState(dashState);
+        }
+        /*
+        // ×´Ì¬»úÐ´·¨
+        dashUsageTimer -= Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer < 0)
         {
@@ -92,5 +106,6 @@ public class Player : Entity
 
             stateMachine.changeState(dashState);
         }
+        */
     }
 }

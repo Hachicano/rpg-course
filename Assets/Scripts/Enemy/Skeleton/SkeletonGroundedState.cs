@@ -8,15 +8,15 @@ public class SkeletonGroundedState : EnemyState
     protected Transform player;
     private float angerDistance = 2;
 
-    public SkeletonGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = enemy;
+        this.enemy = _enemy;
     }
 
     public override void Enter()
     {
         base.Enter();
-        player = GameObject.Find("Player").transform;
+        player = PlayerManager.instance.player.transform;
     }
 
     public override void Exit()

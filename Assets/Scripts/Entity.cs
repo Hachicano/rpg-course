@@ -55,7 +55,7 @@ public class Entity : MonoBehaviour
     protected virtual IEnumerator HitKnockback() { 
         isKnocked = true;
 
-        rb.velocity = new Vector2(knockbackDirection.x * -facingDir, knockbackDirection.y); // 需要优化，无法应对被刺状况
+        rb.velocity = new Vector2(knockbackDirection.x * PlayerManager.instance.player.primaryAttack.attackDir, knockbackDirection.y); // 不知道为啥效果正常但是逻辑是反的
 
         yield return new WaitForSeconds(knockbackDuration);
 

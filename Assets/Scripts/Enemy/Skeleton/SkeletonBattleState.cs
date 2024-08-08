@@ -10,16 +10,16 @@ public class SkeletonBattleState : EnemyState
 
     private float giveupDistance = 7;
 
-    public SkeletonBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = enemy;
+        this.enemy = _enemy;
     }
 
     public override void Enter()
     {
         base.Enter();
-        
-        player = GameObject.Find("Player").transform;
+        stateTimer = enemy.battleTime;
+        player = PlayerManager.instance.player.transform;
     }
 
 
@@ -29,7 +29,6 @@ public class SkeletonBattleState : EnemyState
 
         if (enemy.IsPlayerDetected())
         {
-            stateTimer = enemy.battleTime;
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance )
             {
                 if (canAttack())

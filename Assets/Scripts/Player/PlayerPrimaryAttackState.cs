@@ -7,7 +7,7 @@ public class PlayerPrimaryAttackState : PlayerState
     public int comboCounter {  get; private set; }
 
     public float lastTimeAttack { get; private set; }
-    private float attackDir;
+    public float attackDir;
     private float comboWindow = 2;
     private float inertiaWindow = 0.12f;
 
