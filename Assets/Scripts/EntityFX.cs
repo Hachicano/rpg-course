@@ -11,9 +11,13 @@ public class EntityFX : MonoBehaviour
     [SerializeField] private float flashDuration = .2f;
     private Material originalMat;
 
-    private void Start()
+    private void Awake()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
         originalMat = sr.material;
     }
 

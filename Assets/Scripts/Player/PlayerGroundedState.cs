@@ -22,7 +22,13 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
-        if(Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
+        {
+            stateMachine.changeState(player.aimSword);
+            return;
+        }
+
+        if(Input.GetKeyDown(KeyCode.F))
         {
             stateMachine.changeState(player.counterAttack);
             return;
@@ -44,5 +50,15 @@ public class PlayerGroundedState : PlayerState
             stateMachine.changeState(player.jumpState);
             return;
         }
+    }
+
+    private bool HasNoSword()
+    {
+        if (!player.sword)
+        {
+            return true;
+        }
+        player.sword.GetComponent<Skill_Sword_Controller>().ReturnSword();
+        return false;
     }
 }

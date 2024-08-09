@@ -7,6 +7,5 @@ public class Skill_Dash : Skill
     public override void UseSkill()
     {
         base.UseSkill();
-        Debug.Log("Left clone behind");
     }
 }

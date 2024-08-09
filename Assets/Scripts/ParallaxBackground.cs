@@ -11,7 +11,7 @@ public class ParallaxBackground : MonoBehaviour
     private float xPosition;
     private float length;
 
-    void Start()
+    void Awake()
     {
         cam = GameObject.Find("Main Camera");
 
