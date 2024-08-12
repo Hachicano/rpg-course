@@ -13,6 +13,7 @@ public class Player : Entity
     [Header("Move Info")]
     public float moveSpeed = 12f;
     public float jumpForce = 14f;
+    public float swordReturnImpact = 1.5f;
 
     [Header("Dash Info")]
     // [SerializeField] private float dashCooldown;
@@ -38,7 +39,7 @@ public class Player : Entity
     #endregion
 
     public SkillManager skill;
-    public GameObject sword; // {  get; private set; }
+    public GameObject sword {  get; private set; }
 
     protected override void Awake()
     {
@@ -79,9 +80,10 @@ public class Player : Entity
         sword = _newSword;
     }
 
-    public void ClearTheSword()
+    public void CatchTheSword()
     {
         Destroy(sword);
+        stateMachine.changeState(catchSword);
     }
 
     public IEnumerator BusyFor(float _seconds)
