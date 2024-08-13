@@ -8,6 +8,7 @@ public class Entity : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public EntityFX fx { get; private set; }
+    public SpriteRenderer sr { get; private set; }
     #endregion
 
     [Header("Knockback Info")]
@@ -24,15 +25,15 @@ public class Entity : MonoBehaviour
     [SerializeField] protected float wallCheckDistance;
     [SerializeField] protected LayerMask whatIsGround;
 
-
     public int facingDir { get; private set; } = 1;
     protected bool facingRight = true;
 
     protected virtual void Awake()
     {
         fx = GetComponent<EntityFX>();
-        anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponentInChildren<Animator>();
+        sr = GetComponentInChildren<SpriteRenderer>();
     }
 
     protected virtual void Start()
@@ -60,6 +61,14 @@ public class Entity : MonoBehaviour
         yield return new WaitForSeconds(knockbackDuration);
 
         isKnocked = false;
+    }
+
+    public virtual void MakeTransparent(bool _transparent)
+    {
+        if (_transparent)
+            sr.color = Color.clear;
+        else 
+            sr.color = Color.white;
     }
 
     #region Collision
