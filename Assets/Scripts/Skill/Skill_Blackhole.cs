@@ -6,7 +6,7 @@ public class Skill_Blackhole : Skill
 {
     [SerializeField] private GameObject blackholePrefab;
     [SerializeField] private float blackholeDuration;
-    [SerializeField] private float maxSize;
+    [SerializeField] public float maxSize;
     [SerializeField] private float growSpeed;
     [SerializeField] private float shrinkSpeed;
     [Space]
@@ -54,4 +54,6 @@ public class Skill_Blackhole : Skill
         }
         return false;
     }
+
+    public float GetBlackholeRadius() => maxSize / 2;
 }

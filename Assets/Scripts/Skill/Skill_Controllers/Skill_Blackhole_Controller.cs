@@ -40,6 +40,8 @@ public class Skill_Blackhole_Controller : MonoBehaviour
         cloneAttackCooldown = _cloneAttackCooldown;
 
         blackholeTimer = _blackholeDuration;
+        if (SkillManager.instance.clone.GetCrystalAsClone())
+            playerCanDispear = false;
     }
 
     private void Update()
@@ -121,8 +123,15 @@ public class Skill_Blackhole_Controller : MonoBehaviour
                 xOffset = 2;
             else
                 xOffset = -2;
-
-            SkillManager.instance.clone.CreateClone(targets[randomIndex], new Vector3(xOffset, 0));
+            if (SkillManager.instance.clone.GetCrystalAsClone())
+            {
+                SkillManager.instance.crystal.CreateCrystal();
+                SkillManager.instance.crystal.CurrentCrystalChooseRandomTarget();
+            }
+            else
+            {
+                SkillManager.instance.clone.CreateClone(targets[randomIndex], new Vector3(xOffset, 0));
+            }
             FinalAttackAcount--;
             if (FinalAttackAcount <= 0)
             {
@@ -192,6 +201,15 @@ public class Skill_Blackhole_Controller : MonoBehaviour
 
     public void AddEnemyToList(Transform _enemyTransform) => targets.Add(_enemyTransform);
     public void MinusHotkeyNumber() => hotkeyNumber--;
-    public void TargetAttack(int _index, Vector2 _offset) => SkillManager.instance.clone.CreateClone(targets[_index], _offset);
+    public void TargetAttack(int _index, Vector2 _offset)
+    {
+        if (SkillManager.instance.clone.GetCrystalAsClone())
+        {
+            SkillManager.instance.crystal.CreateCrystal();
+            SkillManager.instance.crystal.CurrentCrystalAssignTarget(targets[_index]);
+        }
+        else
+            SkillManager.instance.clone.CreateClone(targets[_index], _offset);
+    }
     public int TargetCount() => targets.Count;
 }

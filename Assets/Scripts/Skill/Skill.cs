@@ -8,6 +8,7 @@ public class Skill : MonoBehaviour
     protected float cooldownTimer;
 
     protected Player player;
+    protected float TargetCheckRadius = 25f;
 
     protected virtual void Start()
     {
@@ -34,5 +35,29 @@ public class Skill : MonoBehaviour
     public virtual void UseSkill()
     {
         // do some skill specific things
+    }
+
+    protected virtual Transform FindClosestEnemy(Transform _checkTransform)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(_checkTransform.position, TargetCheckRadius);
+
+        float closestDistance = Mathf.Infinity;
+        Transform closestEnemy = null;
+
+        foreach (var hit in colliders)
+        {
+            if (hit.GetComponent<Enemy>() != null)
+            {
+                float distanceToEnemy = Vector2.Distance(_checkTransform.position, hit.transform.position);
+
+                if (distanceToEnemy < closestDistance)
+                {
+                    closestEnemy = hit.transform;
+                    closestDistance = distanceToEnemy;
+                }
+            }
+        }
+
+        return closestEnemy;
     }
 }
