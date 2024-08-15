@@ -164,7 +164,7 @@ public class Skill_Sword_Controller : MonoBehaviour
 
             if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < .1f)
             {
-                enemyTarget[targetIndex].GetComponent<Enemy>().Damage();
+                enemyTarget[targetIndex].GetComponent<Enemy>().DamageEffect();
                 targetIndex++;
                 bounceAmount--;
 
@@ -214,7 +214,7 @@ public class Skill_Sword_Controller : MonoBehaviour
                     {
                         if (hit.GetComponent<Enemy>() != null)
                         {
-                            hit.GetComponent<Enemy>().Damage();
+                            hit.GetComponent<Enemy>().DamageEffect();
                         }
                     }
                 }
@@ -244,7 +244,7 @@ public class Skill_Sword_Controller : MonoBehaviour
     private void DamagAndFreeze(Enemy enemy)
     {
         enemy.StartCoroutine("FreezeTimeFor", freezeTimeDuration);
-        enemy.Damage();
+        enemy.DamageEffect();
     }
     private void StopWhenSpinning()
     {

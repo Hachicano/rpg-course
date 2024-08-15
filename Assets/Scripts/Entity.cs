@@ -9,6 +9,8 @@ public class Entity : MonoBehaviour
     public Rigidbody2D rb { get; private set; }
     public EntityFX fx { get; private set; }
     public SpriteRenderer sr { get; private set; }
+    public CharacterStats stats { get; private set; }
+    public CapsuleCollider2D cd { get; private set; }
     #endregion
 
     [Header("Knockback Info")]
@@ -34,6 +36,8 @@ public class Entity : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
+        stats = GetComponentInChildren<CharacterStats>();
+        cd = GetComponent<CapsuleCollider2D>();
     }
 
     protected virtual void Start()
@@ -46,7 +50,7 @@ public class Entity : MonoBehaviour
         
     }
 
-    public virtual void Damage()
+    public virtual void DamageEffect()
     {
         fx.StartCoroutine(nameof(fx.FlashFX));
         StartCoroutine(nameof(HitKnockback));
@@ -69,6 +73,11 @@ public class Entity : MonoBehaviour
             sr.color = Color.clear;
         else 
             sr.color = Color.white;
+    }
+
+    public virtual void Die()
+    {
+
     }
 
     #region Collision
