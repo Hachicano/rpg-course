@@ -46,9 +46,18 @@ public class Enemy : Entity
         stateMachine.currentState.Update();
     }
 
-    public virtual void AssignLastAnimBoolName(string _animBoolName)
+    public override void SlowEntity(float _slowPercentage, float _slowDuration)
     {
-        lastAnimBoolName = _animBoolName;
+        moveSpeed = moveSpeed * (1 - _slowPercentage);
+        anim.speed = anim.speed * (1 - _slowPercentage);
+
+        Invoke("ReturnDefaultSpeed", _slowDuration);
+    }
+
+    protected override void ReturnDefaultSpeed()
+    {
+        base.ReturnDefaultSpeed();
+        moveSpeed = defaultMoveSpeed;
     }
 
     public virtual void FreezeTime(bool _timeFrozen)
@@ -99,8 +108,9 @@ public class Enemy : Entity
     #endregion
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
-
     public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 10, whatIsPlayer);
+    public virtual void AssignLastAnimBoolName(string _animBoolName) => lastAnimBoolName = _animBoolName;
+    public GameObject getCounterImage() => counterImage;
 
     protected override void OnDrawGizmos()
     {
@@ -110,5 +120,4 @@ public class Enemy : Entity
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * facingDir, transform.position.y));
     }
 
-    public GameObject getCounterImage() => counterImage;
 }

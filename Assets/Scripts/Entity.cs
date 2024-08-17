@@ -30,6 +30,8 @@ public class Entity : MonoBehaviour
     public int facingDir { get; private set; } = 1;
     protected bool facingRight = true;
 
+    public System.Action onFlipped;
+
     protected virtual void Awake()
     {
         fx = GetComponent<EntityFX>();
@@ -48,6 +50,16 @@ public class Entity : MonoBehaviour
     protected virtual void Update()
     {
         
+    }
+
+    public virtual void SlowEntity(float _slowPercentage, float _slowDuration)
+    {
+
+    }
+
+    protected virtual void ReturnDefaultSpeed()
+    {
+        anim.speed = 1;
     }
 
     public virtual void DamageEffect()
@@ -113,6 +125,9 @@ public class Entity : MonoBehaviour
         facingDir = facingDir * -1;
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
+
+        if (onFlipped != null) // maybe can write as "onFlipped?.Invoke()"
+            onFlipped();
     }
     public virtual void FlipController(float _x)
     {
