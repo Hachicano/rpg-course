@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class Skill_Sword_Controller : MonoBehaviour
@@ -164,7 +165,7 @@ public class Skill_Sword_Controller : MonoBehaviour
 
             if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < .1f)
             {
-                enemyTarget[targetIndex].GetComponent<Enemy>().DamageEffect();
+                PlayerManager.instance.player.stats.DoDamage(enemyTarget[targetIndex].GetComponent<CharacterStats>());
                 targetIndex++;
                 bounceAmount--;
 
@@ -214,7 +215,7 @@ public class Skill_Sword_Controller : MonoBehaviour
                     {
                         if (hit.GetComponent<Enemy>() != null)
                         {
-                            hit.GetComponent<Enemy>().DamageEffect();
+                            PlayerManager.instance.player.stats.DoDamage(hit.GetComponent<CharacterStats>());
                         }
                     }
                 }
@@ -244,7 +245,7 @@ public class Skill_Sword_Controller : MonoBehaviour
     private void DamagAndFreeze(Enemy enemy)
     {
         enemy.StartCoroutine("FreezeTimeFor", freezeTimeDuration);
-        enemy.DamageEffect();
+        PlayerManager.instance.player.stats.DoDamage(enemy.GetComponent<CharacterStats>());
     }
     private void StopWhenSpinning()
     {

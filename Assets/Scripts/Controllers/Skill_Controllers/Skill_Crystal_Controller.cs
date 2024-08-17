@@ -75,7 +75,7 @@ public class Skill_Crystal_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().DamageEffect();
+                PlayerManager.instance.player.stats.DoMagicalDamage(hit.GetComponent<CharacterStats>());
             }
         }
     }

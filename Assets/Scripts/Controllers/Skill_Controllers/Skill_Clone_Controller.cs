@@ -67,7 +67,7 @@ public class Skill_Clone_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().DamageEffect();
+                PlayerManager.instance.player.stats.DoDamage(hit.GetComponent<CharacterStats>());
                 if (canDuplicateClone)
                 {
                     if (Random.Range(0, 100) < duplicateChance)

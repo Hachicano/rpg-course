@@ -106,7 +106,7 @@ public class Skill_Blackhole_Controller : MonoBehaviour
             FinalAttackAcount = 100;
         if (playerCanDispear)
         {
-            PlayerManager.instance.player.MakeTransparent(playerCanDispear);
+            PlayerManager.instance.player.fx.MakeTransparent(playerCanDispear);
             playerCanDispear = false;
         }
     }

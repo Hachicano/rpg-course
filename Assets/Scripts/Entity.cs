@@ -62,9 +62,8 @@ public class Entity : MonoBehaviour
         anim.speed = 1;
     }
 
-    public virtual void DamageEffect()
+    public virtual void DamageImpact()
     {
-        fx.StartCoroutine(nameof(fx.FlashFX));
         StartCoroutine(nameof(HitKnockback));
         Debug.Log(gameObject.name + " was damaged!");
     }
@@ -77,14 +76,6 @@ public class Entity : MonoBehaviour
         yield return new WaitForSeconds(knockbackDuration);
 
         isKnocked = false;
-    }
-
-    public virtual void MakeTransparent(bool _transparent)
-    {
-        if (_transparent)
-            sr.color = Color.clear;
-        else 
-            sr.color = Color.white;
     }
 
     public virtual void Die()

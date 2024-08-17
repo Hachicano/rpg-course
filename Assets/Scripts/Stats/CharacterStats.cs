@@ -48,6 +48,7 @@ public class CharacterStats : MonoBehaviour
 
     public float currentHealth;
     public System.Action onHealthChanged;
+    protected bool isDead;
 
     protected virtual void Awake()
     {
@@ -80,18 +81,9 @@ public class CharacterStats : MonoBehaviour
         {
             isShocked = false;
         }
-        if (IgniteDamageTimer < 0 && isIgnited)
-        {
-            float finaldamge = CheckTargetMagicalResistance(this, IgniteDamage);
-            DecreaseHealthBy(finaldamge);
-            if (currentHealth < 0)
-            {
-                Die();
-                isIgnited = false;
-            }
-            IgniteDamageTimer = IgniteDamageCooldown;
-        }
+        ApplyIgniteDamage();
     }
+
 
     public virtual void DoDamage(CharacterStats _targetStats)
     {
@@ -107,10 +99,32 @@ public class CharacterStats : MonoBehaviour
 
         totalDamage = CheckTargetArmor(_targetStats, totalDamage);
 
-        // _targetStats.TakeDamage(totalDamage);
-        DoMagicalDamage(_targetStats);
+        _targetStats.TakeDamage(totalDamage);
+    }
+    public virtual void TakeDamage(float _damage)
+    {
+        DecreaseHealthBy(_damage);
+
+        GetComponent<Entity>().DamageImpact();
+        fx.StartCoroutine(nameof(fx.FlashFX));
+
+        Debug.Log(_damage);
+
+        if (currentHealth < 0 && !isDead)
+        {
+            currentHealth = 0;
+            Die();
+        }
     }
 
+    protected virtual void DecreaseHealthBy(float _damage)
+    {
+        currentHealth -= _damage;
+        if (onHealthChanged != null)
+            onHealthChanged();
+    }
+
+    #region Magical damage and Ailments
     public virtual void DoMagicalDamage(CharacterStats _targetStats)
     {
         float _fireDamage = fireDamge.GetValue();
@@ -125,11 +139,18 @@ public class CharacterStats : MonoBehaviour
             return;
         }
 
+        AttemptToApplyAilment(_targetStats, _fireDamage, _iceDamage, _shockDamage, totalMagicalDamge);
+
+    }
+
+    private void AttemptToApplyAilment(CharacterStats _targetStats, float _fireDamage, float _iceDamage, float _shockDamage, float totalMagicalDamge)
+    {
         bool canApplyIgnite = _fireDamage > _iceDamage && _fireDamage > _shockDamage;
         bool canApplyChill = _iceDamage > _fireDamage && _iceDamage > _shockDamage;
         bool canApplyShock = _shockDamage > _fireDamage && _shockDamage > _iceDamage;
 
-        while(!canApplyIgnite && !canApplyChill && !canApplyShock) { 
+        while (!canApplyIgnite && !canApplyChill && !canApplyShock)
+        {
             if (Random.value < .333334f && _fireDamage != 0) // Random.value gives you a number form 0 to 1
             {
                 canApplyIgnite = true;
@@ -163,54 +184,12 @@ public class CharacterStats : MonoBehaviour
             _targetStats.SetupShockDamge(Mathf.Round(_shockDamage * .2f));
 
         _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock);
-
-    }
-
-    private float CheckTargetArmor(CharacterStats _targetStats, float totalDamage)
-    {
-        float _iceResistance = _targetStats.iceDamage.GetValue() * .05f;
-        totalDamage -= _targetStats.armor.GetValue() + _iceResistance;
-        totalDamage = Mathf.Clamp(totalDamage, 0f, float.MaxValue);
-        return totalDamage;
-    }
-
-    private float CheckTargetMagicalResistance(CharacterStats _targetStats, float totalMagicalDamge)
-    {
-        float _iceResistance = _targetStats.iceDamage.GetValue() * .1f;
-        if (IgniteDamage != 0)
-            _iceResistance = 0;
-        float magicDamgeRemain = (100 - (_targetStats.magicResistance.GetValue() + _iceResistance + (_targetStats.Intelligence.GetValue() * .05f))) / 100;
-        if (magicDamgeRemain <= .05f)
-            magicDamgeRemain = .05f;
-        totalMagicalDamge = totalMagicalDamge * magicDamgeRemain;
-        totalMagicalDamge = Mathf.Round(totalMagicalDamge);
-        return totalMagicalDamge;
-    }
-
-    public virtual void TakeDamage(float _damage)
-    {
-        DecreaseHealthBy(_damage);
-
-        Debug.Log(_damage);
-
-        if (currentHealth < 0)
-        {
-            currentHealth = 0;
-            Die();
-        }
-    }
-
-    protected virtual void DecreaseHealthBy(float _damage)
-    {
-        currentHealth -= _damage;
-        if (onHealthChanged != null)
-            onHealthChanged();
     }
 
     public void ApplyAilments(bool _ignit, bool _chill, bool _shock)
     {
-        bool canApplyIgnite = !isIgnited && !isChilled && isShocked;
-        bool canApplyChill = !isIgnited && !isChilled && isShocked;
+        bool canApplyIgnite = !isIgnited && !isChilled && !isShocked;
+        bool canApplyChill = !isIgnited && !isChilled && !isShocked;
         bool canApplyShock = !isIgnited && !isChilled;
 
         if (_ignit && canApplyIgnite)
@@ -240,14 +219,12 @@ public class CharacterStats : MonoBehaviour
 
         }
     }
-
     public void ApplyIgnite(bool _ignit)
     {
         isIgnited = _ignit;
         IgnitedTimer = IgnitedDuration;
         fx.IgniteFXFor(IgnitedDuration);
     }
-
     public void ApplyChill(bool _chill)
     {
         isChilled = _chill;
@@ -257,7 +234,6 @@ public class CharacterStats : MonoBehaviour
         GetComponent<Entity>().SlowEntity(slowPercentage, ChilledDuration);
         fx.ChillFxFor(ChilledDuration);
     }
-
     public void ApplyShock(bool _shock)
     {
         if (isShocked)
@@ -267,6 +243,23 @@ public class CharacterStats : MonoBehaviour
         fx.ShockFXFor(ShockedDuration);
     }
 
+    public void SetupIgniteDamage(float _damage) => IgniteDamage = _damage;
+    private void ApplyIgniteDamage()
+    {
+        if (IgniteDamageTimer < 0 && isIgnited)
+        {
+            float finaldamge = CheckTargetMagicalResistance(this, IgniteDamage);
+            DecreaseHealthBy(finaldamge);
+            if (currentHealth < 0 && !isDead)
+            {
+                Die();
+                isIgnited = false;
+            }
+            IgniteDamageTimer = IgniteDamageCooldown;
+        }
+    }
+
+    public void SetupShockDamge(float _damage) => shockDamge = _damage;
     private void HitClosestTargetWithShockStrike()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10);
@@ -297,9 +290,28 @@ public class CharacterStats : MonoBehaviour
             newShockStrike.GetComponent<ShockStrikeController>().Setup(shockDamge, closestEnemy.GetComponent<CharacterStats>());
         }
     }
+    #endregion
 
-    public void SetupIgniteDamage(float _damage) => IgniteDamage = _damage;
-    public void SetupShockDamge(float _damage) => shockDamge = _damage;
+    #region Stats Calculation
+    private float CheckTargetArmor(CharacterStats _targetStats, float totalDamage)
+    {
+        float _iceResistance = _targetStats.iceDamage.GetValue() * .05f;
+        totalDamage -= _targetStats.armor.GetValue() + _iceResistance;
+        totalDamage = Mathf.Clamp(totalDamage, 0f, float.MaxValue);
+        return totalDamage;
+    }
+    private float CheckTargetMagicalResistance(CharacterStats _targetStats, float totalMagicalDamge)
+    {
+        float _iceResistance = _targetStats.iceDamage.GetValue() * .1f;
+        if (IgniteDamage != 0)
+            _iceResistance = 0;
+        float magicDamgeRemain = (100 - (_targetStats.magicResistance.GetValue() + _iceResistance + (_targetStats.Intelligence.GetValue() * .05f))) / 100;
+        if (magicDamgeRemain <= .05f)
+            magicDamgeRemain = .05f;
+        totalMagicalDamge = totalMagicalDamge * magicDamgeRemain;
+        totalMagicalDamge = Mathf.Round(totalMagicalDamge);
+        return totalMagicalDamge;
+    }
 
     private bool TargetCanAvoidAttack(CharacterStats _targetStats)
     {
@@ -315,7 +327,6 @@ public class CharacterStats : MonoBehaviour
         }
         return false;
     }
-
     private bool canCrit(CharacterStats _targetStats)
     {
         float totalCriticalChance = critChance.GetValue() + agility.GetValue();
@@ -327,7 +338,6 @@ public class CharacterStats : MonoBehaviour
         }
         return false;
     }
-
     private float CalculateCritDamage(float _damage)
     {
         float totalCritPower = (critPower.GetValue() + strengeth.GetValue()) * .1f;
@@ -336,9 +346,13 @@ public class CharacterStats : MonoBehaviour
 
         return Mathf.Round(critDamage);
     }
-    protected virtual void Die()
-    {
-    }
 
     public float GetMaxHealthValue() => maxHealth.GetValue() + vitality.GetValue() * 5;
+    #endregion
+
+    protected virtual void Die()
+    {
+        isDead = true;
+    }
+
 }

@@ -20,7 +20,6 @@ public class PlayerStats : CharacterStats
     public override void TakeDamage(float _damage)
     {
         base.TakeDamage(_damage);
-        player.DamageEffect();
     }
 
     protected override void Die()
