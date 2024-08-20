@@ -25,5 +25,5 @@ public class Stat
 
     public void AddModifier(float _modifier) => modifiers.Add(_modifier);
 
-    public void RemoveModifier(int _modifierIndex) => modifiers.RemoveAt(_modifierIndex); // RemoveAt or Remove ?
+    public void RemoveModifier(float _modifier) => modifiers.Remove(_modifier); 
 }
