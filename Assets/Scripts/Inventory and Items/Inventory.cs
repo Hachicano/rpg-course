@@ -6,6 +6,8 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
 
+    public List<ItemData> startingItems;
+
     public List<InventoryItem> equipment;
     public Dictionary<ItemData_Equipment, InventoryItem> equipmentDictionary;
 
@@ -45,6 +47,16 @@ public class Inventory : MonoBehaviour
 
         equipment = new List<InventoryItem>();
         equipmentDictionary = new Dictionary<ItemData_Equipment, InventoryItem>();
+
+        AddStartingItems();
+    }
+
+    private void AddStartingItems()
+    {
+        for (int i = 0; i < startingItems.Count; i++)
+        {
+            AddItem(startingItems[i]);
+        }
     }
 
     public void EquipItem(ItemData _item)
@@ -185,10 +197,63 @@ public class Inventory : MonoBehaviour
             }
             else
             {
-                value.RemoveStack();
+                stashValue.RemoveStack();
             }
         }
 
         UpdateSlotUI();
+    }
+
+    // RemoveItem & CanCraft 都需要改进，现在能够制作物品但必须数量都是一且不能拥有被制作的物品
+    public bool CanCraft(ItemData_Equipment _itemToCraft, List<InventoryItem> _requiredMaterials)
+    {
+        List<InventoryItem> materialsToRemove = new List<InventoryItem>();
+
+        for (int i = 0; i < _requiredMaterials.Count; i++) 
+        {
+            if (stashDictionary.TryGetValue(_requiredMaterials[i].data, out InventoryItem stashValue))
+            {
+                if (stashValue.stackSize < _requiredMaterials[i].stackSize)
+                {
+                    Debug.Log("Not enough materials");
+                    return false;
+                }
+                else
+                {
+                    materialsToRemove.Add(stashValue);
+                }
+            }
+            else
+            {
+                Debug.Log("Not enough materials");
+                return false;
+            }
+        }
+
+        for (int j = 0; j < materialsToRemove.Count; j++)
+        {
+            RemoveItem(materialsToRemove[j].data);
+        }
+
+        AddItem(_itemToCraft);
+        Debug.Log(_itemToCraft.name + " craft " + "successfully !");
+        return true;
+    }
+
+    public List<InventoryItem> GetEquipmentList() => equipment;
+    public List<InventoryItem> GetStashList() => stash;
+    public ItemData_Equipment GetEquipment(EquipmentType _type)
+    {
+        ItemData_Equipment equippedItem = null;
+
+        foreach (KeyValuePair<ItemData_Equipment, InventoryItem> item in equipmentDictionary)
+        {
+            if (item.Key.equipmentType == _type)
+            {
+                equippedItem = item.Key;
+            }
+        }
+
+        return equippedItem;
     }
 }

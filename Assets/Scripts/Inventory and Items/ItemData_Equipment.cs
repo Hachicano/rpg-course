@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum EquipmentType
@@ -13,6 +14,8 @@ public enum EquipmentType
 public class ItemData_Equipment : ItemData
 {
     public EquipmentType equipmentType;
+
+    public ItemEffect[] itemEffects;
 
     [Header("Major Stats")]
     public float strengeth; 
@@ -36,6 +39,16 @@ public class ItemData_Equipment : ItemData
     public float iceDamage;
     public float shockDamage;
 
+    [Header("Craft Requirements")]
+    public List<InventoryItem> craftingMaterials;
+
+    public void ExecuteItemEffect()
+    {
+        foreach (var effect in itemEffects)
+        {
+            effect.ExecuteEffect();
+        }
+    }
 
     public void AddModifiers()
     {

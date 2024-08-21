@@ -48,7 +48,7 @@ public class CharacterStats : MonoBehaviour
 
     public float currentHealth;
     public System.Action onHealthChanged;
-    protected bool isDead;
+    public bool isDead {  get; private set; }
 
     protected virtual void Awake()
     {

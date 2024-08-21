@@ -15,6 +15,7 @@ MonoBehaviour:
   itemType: 1
   itemName: Nice Armor
   icon: {fileID: -1547736094, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 10
   equipmentType: 1
   strengeth: 0
   agility: 0
@@ -30,3 +31,4 @@ MonoBehaviour:
   fireDamge: 0
   iceDamage: 0
   shockDamage: 0
+  craftingMaterials: []
