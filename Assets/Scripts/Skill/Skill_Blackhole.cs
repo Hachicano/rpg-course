@@ -14,6 +14,7 @@ public class Skill_Blackhole : Skill
     [SerializeField] private float cloneAttackCooldown;
 
     public Skill_Blackhole_Controller currentBlackhole;
+    public bool haveBlackhole;
 
 
     public override bool CanUseSkill()
@@ -30,6 +31,8 @@ public class Skill_Blackhole : Skill
         currentBlackhole = newBlackhole.GetComponent<Skill_Blackhole_Controller>();
 
         currentBlackhole.SetupBlackhole(blackholeDuration, maxSize, growSpeed, shrinkSpeed, AttackTimes, cloneAttackCooldown);
+
+        haveBlackhole = true;
     }
 
     protected override void Start()

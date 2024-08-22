@@ -78,6 +78,8 @@ public class Skill_Crystal_Controller : MonoBehaviour
             if (hit.GetComponent<Enemy>() != null)
             {
                 PlayerManager.instance.player.stats.DoMagicalDamage(hit.GetComponent<CharacterStats>());
+
+                Inventory.instance.GetEquipment(EquipmentType.Amulet)?.Effect(hit.transform);
             }
         }
     }

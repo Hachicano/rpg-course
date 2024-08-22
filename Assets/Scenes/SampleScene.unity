@@ -7296,8 +7296,9 @@ MonoBehaviour:
   growSpeed: 3
   shrinkSpeed: 6
   AttackTimes: 5
-  cloneAttackCooldown: 0.05
+  cloneAttackCooldown: 0.1
   currentBlackhole: {fileID: 0}
+  haveBlackhole: 0
 --- !u!114 &370036969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10304,6 +10305,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 11d0d4c890206bf4d89aed97e5038ab0, type: 2}
   - {fileID: 11400000, guid: bb700de1700b42d4f85c4e22122dd00e, type: 2}
   - {fileID: 11400000, guid: 591623f6a1697f2468a05918d875e141, type: 2}
+  - {fileID: 11400000, guid: 8c57306ff65893d47b6be811adc865b9, type: 2}
+  - {fileID: 11400000, guid: dede2a36c51905643949c15733496a30, type: 2}
+  - {fileID: 11400000, guid: a3975820a1f2e224e967963b884ff0fb, type: 2}
+  - {fileID: 11400000, guid: 5e7efaa3653ded645ae21049cc881cbc, type: 2}
+  - {fileID: 11400000, guid: 81aee626a7c77664d9b5b80e450fef6a, type: 2}
+  - {fileID: 11400000, guid: 3d20862121b722d42a1a2c49ffae783f, type: 2}
+  - {fileID: 11400000, guid: a2aeae912b820b0409f22824701679f7, type: 2}
   equipment: []
   inventory: []
   stash: []
@@ -16836,14 +16844,14 @@ MonoBehaviour:
   agility:
     baseValue: 0
     modifiers: []
-  Intelligence:
+  intelligence:
     baseValue: 0
     modifiers: []
   vitality:
     baseValue: 0
     modifiers: []
   phsicalDamage:
-    baseValue: 0
+    baseValue: 30
     modifiers: []
   critChance:
     baseValue: 0
@@ -16852,7 +16860,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: []
   maxHealth:
-    baseValue: 50
+    baseValue: 300
     modifiers: []
   armor:
     baseValue: 0
@@ -17111,7 +17119,7 @@ MonoBehaviour:
   agility:
     baseValue: 0
     modifiers: []
-  Intelligence:
+  intelligence:
     baseValue: 0
     modifiers: []
   vitality:
@@ -17127,7 +17135,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: []
   maxHealth:
-    baseValue: 10
+    baseValue: 100
     modifiers: []
   armor:
     baseValue: 0
@@ -17139,7 +17147,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: []
   fireDamge:
-    baseValue: 50
+    baseValue: 0
     modifiers: []
   iceDamage:
     baseValue: 0

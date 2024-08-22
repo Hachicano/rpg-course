@@ -86,9 +86,14 @@ public class Player : Entity
         stateMachine.currentState.Update();
         checkForDashInput();
 
-        if(Input.GetKeyDown(KeyCode.Mouse3))
+        if (Input.GetKeyDown(KeyCode.Mouse3)) 
         {
             skill.crystal.CanUseSkill();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Inventory.instance.UseFlask();
         }
     }
 

@@ -17,7 +17,7 @@ public class Skill_Blackhole_Controller : MonoBehaviour
     private bool canGrow = true;
     private bool canShrink;
     private bool canCreateHotkey = true;
-    private bool cloneAttackRelease;
+    public bool cloneAttackRelease {  get; private set; }
     private bool detectEnemy;
     private bool playerCanDispear = true;
 
@@ -145,6 +145,7 @@ public class Skill_Blackhole_Controller : MonoBehaviour
         playerCanExitTheState = true;
         canShrink = true;
         cloneAttackRelease = false;
+        SkillManager.instance.blackhole.haveBlackhole = false;
     }
 
     private void DestroyHotkeys()

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
@@ -88,7 +87,7 @@ public class Skill_Sword_Controller : MonoBehaviour
     }
     private void StuckInto(Collider2D collision)
     {
-        if (pierceAmount >0 && collision.GetComponent<Enemy>() != null)
+        if (pierceAmount > 0 && collision.GetComponent<Enemy>() != null)
         {
             pierceAmount--;
             return;
@@ -125,7 +124,6 @@ public class Skill_Sword_Controller : MonoBehaviour
         {
             anim.SetBool("Rotation", true);
         }
-        spinDirection = Mathf.Clamp(rb.velocity.x, -1, 1);
 
         Invoke("DestroyMe", 7);
     }
@@ -146,6 +144,7 @@ public class Skill_Sword_Controller : MonoBehaviour
         maxTravelDistance = _maxTravelDistance;
         spinDuration = _spinDuration;
         hitCooldown = _hitCooldown;
+        spinDirection = Mathf.Clamp(rb.velocity.x, -1, 1);
     }
 
     public void ReturnSword()
@@ -165,7 +164,8 @@ public class Skill_Sword_Controller : MonoBehaviour
 
             if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < .1f)
             {
-                PlayerManager.instance.player.stats.DoDamage(enemyTarget[targetIndex].GetComponent<CharacterStats>());
+                DamagAndFreeze(enemyTarget[targetIndex].GetComponent<Enemy>());
+
                 targetIndex++;
                 bounceAmount--;
 
@@ -194,8 +194,8 @@ public class Skill_Sword_Controller : MonoBehaviour
             if (wasStopped)
             {
                 spinTimer -= Time.deltaTime;
-                transform.position = Vector2.MoveTowards(transform.position, 
-                    new Vector2(transform.position.x + spinDirection, transform.position.y), 1.5f * Time.deltaTime); 
+                transform.position = Vector2.MoveTowards(transform.position,
+                    new Vector2(transform.position.x + spinDirection, transform.position.y), 1.5f * Time.deltaTime);
 
                 if (spinTimer < 0)
                 {
@@ -215,7 +215,7 @@ public class Skill_Sword_Controller : MonoBehaviour
                     {
                         if (hit.GetComponent<Enemy>() != null)
                         {
-                            PlayerManager.instance.player.stats.DoDamage(hit.GetComponent<CharacterStats>());
+                            DamagAndFreeze(hit.GetComponent<Enemy>());
                         }
                     }
                 }
@@ -244,8 +244,10 @@ public class Skill_Sword_Controller : MonoBehaviour
 
     private void DamagAndFreeze(Enemy enemy)
     {
-        enemy.StartCoroutine("FreezeTimeFor", freezeTimeDuration);
         PlayerManager.instance.player.stats.DoDamage(enemy.GetComponent<CharacterStats>());
+        enemy.FreezeTimeFor(freezeTimeDuration);
+
+        Inventory.instance.GetEquipment(EquipmentType.Amulet)?.Effect(enemy.transform);
     }
     private void StopWhenSpinning()
     {

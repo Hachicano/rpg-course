@@ -68,6 +68,19 @@ public class Skill_Clone_Controller : MonoBehaviour
             if (hit.GetComponent<Enemy>() != null)
             {
                 PlayerManager.instance.player.stats.DoDamage(hit.GetComponent<CharacterStats>());
+
+                // inventory get weapon call item effect
+                ItemData_Equipment equipedWeapon = Inventory.instance.GetEquipment(EquipmentType.Weapon);
+                ItemData_Equipment equipedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
+                if (equipedAmulet != null)
+                {
+                    equipedAmulet.Effect(hit.transform);
+                }
+                else if (equipedWeapon != null)
+                {
+                    equipedWeapon.Effect(hit.transform);
+                }
+
                 if (canDuplicateClone)
                 {
                     if (Random.Range(0, 100) < duplicateChance)

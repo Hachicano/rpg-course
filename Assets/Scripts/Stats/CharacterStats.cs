@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class CharacterStats : MonoBehaviour
     [Header("Major Stats")]
     public Stat strengeth; // 1 point increase damage by 1 and crit.power by 1%
     public Stat agility; // 1 point increase evasion by 0.5% and crit.chance by 1%
-    public Stat Intelligence; // 1 point increase magic damage by 1 and magic resistence by 10%
+    public Stat intelligence; // 1 point increase magic damage by 1 and magic resistence by 10%
     public Stat vitality; // 1 point increase Health by 5
 
     [Header("Offensive Stats")]
@@ -84,6 +85,20 @@ public class CharacterStats : MonoBehaviour
         ApplyIgniteDamage();
     }
 
+    public virtual void IncreaseStatBy (float _modifier, float _duration, Stat _statToModify)
+    {
+        // start a coroutine for stat increase
+        StartCoroutine(StatModifyCoroutine(_modifier, _duration, _statToModify));
+    }
+
+    private IEnumerator StatModifyCoroutine(float _modifier, float _duration, Stat _statToModify)
+    {
+        _statToModify.AddModifier(_modifier);
+
+        yield return new WaitForSeconds(_duration);
+
+        _statToModify.RemoveModifier(_modifier);
+    }
 
     public virtual void DoDamage(CharacterStats _targetStats)
     {
@@ -117,9 +132,19 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
-    protected virtual void DecreaseHealthBy(float _damage)
+    public virtual void DecreaseHealthBy(float _damage)
     {
         currentHealth -= _damage;
+        if(currentHealth > GetMaxHealthValue())
+            currentHealth = GetMaxHealthValue();
+
+        if (onHealthChanged != null)
+            onHealthChanged();
+    }
+
+    public virtual void IncreaseHealthBy(float _heal)
+    {
+        currentHealth += _heal;
         if (onHealthChanged != null)
             onHealthChanged();
     }
@@ -130,7 +155,7 @@ public class CharacterStats : MonoBehaviour
         float _fireDamage = fireDamge.GetValue();
         float _iceDamage = iceDamage.GetValue();
         float _shockDamage = shockDamage.GetValue();
-        float totalMagicalDamge = Intelligence.GetValue();
+        float totalMagicalDamge = intelligence.GetValue();
 
         if (Mathf.Max(_fireDamage, _iceDamage, _shockDamage) <= 0)
         {
@@ -305,7 +330,7 @@ public class CharacterStats : MonoBehaviour
         float _iceResistance = _targetStats.iceDamage.GetValue() * .1f;
         if (IgniteDamage != 0)
             _iceResistance = 0;
-        float magicDamgeRemain = (100 - (_targetStats.magicResistance.GetValue() + _iceResistance + (_targetStats.Intelligence.GetValue() * .05f))) / 100;
+        float magicDamgeRemain = (100 - (_targetStats.magicResistance.GetValue() + _iceResistance + (_targetStats.intelligence.GetValue() * .05f))) / 100;
         if (magicDamgeRemain <= .05f)
             magicDamgeRemain = .05f;
         totalMagicalDamge = totalMagicalDamge * magicDamgeRemain;

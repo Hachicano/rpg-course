@@ -30,7 +30,7 @@ public class EnemyStats : CharacterStats
     {
         Modify(strengeth);
         Modify(agility);
-        Modify(Intelligence);
+        Modify(intelligence);
         Modify(vitality);
 
         Modify(phsicalDamage);
@@ -67,5 +67,7 @@ public class EnemyStats : CharacterStats
         base.Die();
         enemy.Die();
         myDropSystem.GenerateDrop();
+
+        Destroy(gameObject, 10f);
     }
 }

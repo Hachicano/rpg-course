@@ -17,6 +17,9 @@ public class ItemData_Equipment : ItemData
 
     public ItemEffect[] itemEffects;
 
+    [Header("Item Cooldown")]
+    public float itemCooldown;
+
     [Header("Major Stats")]
     public float strengeth; 
     public float agility; 
@@ -42,11 +45,11 @@ public class ItemData_Equipment : ItemData
     [Header("Craft Requirements")]
     public List<InventoryItem> craftingMaterials;
 
-    public void ExecuteItemEffect()
+    public void Effect(Transform _executeTransform)
     {
         foreach (var effect in itemEffects)
         {
-            effect.ExecuteEffect();
+            effect.ExecuteEffect(_executeTransform);
         }
     }
 
@@ -56,7 +59,7 @@ public class ItemData_Equipment : ItemData
 
         playerStats.strengeth.AddModifier(strengeth);
         playerStats.agility.AddModifier(agility);
-        playerStats.Intelligence.AddModifier(Intelligence);
+        playerStats.intelligence.AddModifier(Intelligence);
         playerStats.vitality.AddModifier(vitality);
 
         playerStats.phsicalDamage.AddModifier(phsicalDamage);
@@ -78,7 +81,7 @@ public class ItemData_Equipment : ItemData
 
         playerStats.strengeth.RemoveModifier(strengeth);
         playerStats.agility.RemoveModifier(agility);
-        playerStats.Intelligence.RemoveModifier(Intelligence);
+        playerStats.intelligence.RemoveModifier(Intelligence);
         playerStats.vitality.RemoveModifier(vitality);
 
         playerStats.phsicalDamage.RemoveModifier(phsicalDamage);
