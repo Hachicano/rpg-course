@@ -68,6 +68,8 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    // Already fix the problem of healthbar ui misbehavior when equipping items have maxHealth modifier
+    // But there are still deffects(?) remained, such as player still have the same currentHealth after getting maxHealth increased
     public void EquipItem(ItemData _item)
     {
         ItemData_Equipment newEquipment = _item as ItemData_Equipment; // 向下转换类型
@@ -92,6 +94,8 @@ public class Inventory : MonoBehaviour
         equipment.Add(newItem);
         equipmentDictionary.Add(newEquipment, newItem);
         newEquipment.AddModifiers();
+        if (PlayerManager.instance.player.GetComponent<PlayerStats>().onHealthChanged != null)
+            PlayerManager.instance.player.GetComponent<PlayerStats>().onHealthChanged();
         RemoveItem(_item);
     }
 
@@ -102,6 +106,8 @@ public class Inventory : MonoBehaviour
             equipment.Remove(value);
             equipmentDictionary.Remove(itemToRemove);
             itemToRemove.RemoveModifiers();
+            if (PlayerManager.instance.player.GetComponent<PlayerStats>().onHealthChanged != null)
+                PlayerManager.instance.player.GetComponent<PlayerStats>().onHealthChanged();
         }
     }
 
@@ -213,7 +219,7 @@ public class Inventory : MonoBehaviour
         UpdateSlotUI();
     }
 
-    // RemoveItem & CanCraft 都需要改进，现在能够制作物品但必须数量都是一且不能拥有被制作的物品
+    // RemoveItem & CanCraft 都需要改进，现在能够制作物品但必须数量都是一且不能拥有被制作的物品 (solved ?)
     public bool CanCraft(ItemData_Equipment _itemToCraft, List<InventoryItem> _requiredMaterials)
     {
         List<InventoryItem> materialsToRemove = new List<InventoryItem>();

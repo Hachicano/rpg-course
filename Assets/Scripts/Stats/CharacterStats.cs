@@ -372,7 +372,13 @@ public class CharacterStats : MonoBehaviour
         return Mathf.Round(critDamage);
     }
 
-    public float GetMaxHealthValue() => maxHealth.GetValue() + vitality.GetValue() * 5;
+    //public float GetMaxHealthValue() => maxHealth.GetValue() + vitality.GetValue() * 5;
+    public float GetMaxHealthValue()
+    {
+        float finalMaxHealth = maxHealth.GetValue() + vitality.GetValue() * 5;
+        Debug.Log("Max Health: " + finalMaxHealth);
+        return finalMaxHealth;
+    }
     #endregion
 
     protected virtual void Die()

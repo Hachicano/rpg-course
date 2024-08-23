@@ -13,7 +13,7 @@ public class FreezeEnemiesEffect : ItemEffect
             return;
 
         PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();
-        if (playerStats.currentHealth > playerStats.GetMaxHealthValue() * 1f)
+        if (playerStats.currentHealth > playerStats.GetMaxHealthValue() * .1f)
             return;
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(_executeTransform.position, 5);
