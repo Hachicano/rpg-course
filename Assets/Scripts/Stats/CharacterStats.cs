@@ -1,14 +1,31 @@
 using System.Collections;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+public enum StatType
+{
+    strengeth,
+    agility,
+    intelligence,
+    vitality,
+    phsicalDamage,
+    critChance,
+    critPower,
+    maxHealth,
+    armor,
+    evasion,
+    magicResistance,
+    fireDamge,
+    iceDamage,
+    shockDamage
+}
 
 public class CharacterStats : MonoBehaviour
 {
     private EntityFX fx;
 
     [Header("Major Stats")]
-    public Stat strengeth; // 1 point increase damage by 1 and crit.power by 1%
-    public Stat agility; // 1 point increase evasion by 0.5% and crit.chance by 1%
+    public Stat strengeth; // 1 point increase damage by 1 and crit.power by 10%
+    public Stat agility; // 1 point increase evasion by 10% and crit chance by 10%
     public Stat intelligence; // 1 point increase magic damage by 1 and magic resistence by 10%
     public Stat vitality; // 1 point increase Health by 5
 
@@ -58,7 +75,7 @@ public class CharacterStats : MonoBehaviour
 
     protected virtual void Start()
     {
-        currentHealth = GetMaxHealthValue();
+        currentHealth = GetTotalMaxHealthValue();
         critPower.SetDefaultValue(150);
 
     }
@@ -105,7 +122,7 @@ public class CharacterStats : MonoBehaviour
         if (TargetCanAvoidAttack(_targetStats))
             return;
 
-        float totalDamage = phsicalDamage.GetValue() + strengeth.GetValue();
+        float totalDamage = GetTotalPhisicalDamgeValue();
 
         if (canCrit(_targetStats))
         {
@@ -116,6 +133,7 @@ public class CharacterStats : MonoBehaviour
 
         _targetStats.TakeDamage(totalDamage);
     }
+
     public virtual void TakeDamage(float _damage)
     {
         DecreaseHealthBy(_damage);
@@ -135,8 +153,8 @@ public class CharacterStats : MonoBehaviour
     public virtual void DecreaseHealthBy(float _damage)
     {
         currentHealth -= _damage;
-        if(currentHealth > GetMaxHealthValue())
-            currentHealth = GetMaxHealthValue();
+        if(currentHealth > GetTotalMaxHealthValue())
+            currentHealth = GetTotalMaxHealthValue();
 
         if (onHealthChanged != null)
             onHealthChanged();
@@ -327,10 +345,11 @@ public class CharacterStats : MonoBehaviour
     }
     private float CheckTargetMagicalResistance(CharacterStats _targetStats, float totalMagicalDamge)
     {
-        float _iceResistance = _targetStats.iceDamage.GetValue() * .1f;
-        if (IgniteDamage != 0)
-            _iceResistance = 0;
-        float magicDamgeRemain = (100 - (_targetStats.magicResistance.GetValue() + _iceResistance + (_targetStats.intelligence.GetValue() * .05f))) / 100;
+        float iceResistance = _targetStats.iceDamage.GetValue() * .1f;
+        float totalMagicalResistance = _targetStats.GetTotalMagicResistance();
+        if (IgniteDamage != 0 && _targetStats.iceDamage.GetValue() != 0)
+            totalMagicalResistance -= iceResistance;
+        float magicDamgeRemain = (100 - totalMagicalResistance) / 100;
         if (magicDamgeRemain <= .05f)
             magicDamgeRemain = .05f;
         totalMagicalDamge = totalMagicalDamge * magicDamgeRemain;
@@ -340,7 +359,7 @@ public class CharacterStats : MonoBehaviour
 
     private bool TargetCanAvoidAttack(CharacterStats _targetStats)
     {
-        float totalEvasion = _targetStats.evasion.GetValue() + _targetStats.agility.GetValue() * .5f;
+        float totalEvasion = _targetStats.GetTotalEvasion();
 
         if (isShocked)
             totalEvasion += 20;
@@ -354,7 +373,7 @@ public class CharacterStats : MonoBehaviour
     }
     private bool canCrit(CharacterStats _targetStats)
     {
-        float totalCriticalChance = critChance.GetValue() + agility.GetValue();
+        float totalCriticalChance = GetTotalCritChance();
         if (_targetStats.isChilled)
             totalCriticalChance += 30;
         if (Random.Range(0, 100) <= totalCriticalChance)
@@ -365,7 +384,7 @@ public class CharacterStats : MonoBehaviour
     }
     private float CalculateCritDamage(float _damage)
     {
-        float totalCritPower = (critPower.GetValue() + strengeth.GetValue()) * .1f;
+        float totalCritPower = GetTotalCritPower() * .1f;
 
         float critDamage = _damage * totalCritPower;
 
@@ -373,13 +392,60 @@ public class CharacterStats : MonoBehaviour
     }
 
     //public float GetMaxHealthValue() => maxHealth.GetValue() + vitality.GetValue() * 5;
-    public float GetMaxHealthValue()
+    #endregion
+
+    #region Get Value
+    public float GetTotalMaxHealthValue()
     {
         float finalMaxHealth = maxHealth.GetValue() + vitality.GetValue() * 5;
-        Debug.Log("Max Health: " + finalMaxHealth);
+        // Debug.Log("Max Health: " + finalMaxHealth);
         return finalMaxHealth;
     }
+    public float GetTotalPhisicalDamgeValue() => phsicalDamage.GetValue() + strengeth.GetValue();
+    public float GetTotalCritChance() => critChance.GetValue() + agility.GetValue() * .1f;
+    public float GetTotalCritPower() => critPower.GetValue() + strengeth.GetValue() * .1f;
+    public float GetTotalMagicResistance()
+    {
+        float iceResistance = iceDamage.GetValue() * .1f;
+        float totalMagicResistance = iceResistance + magicResistance.GetValue() + intelligence.GetValue() * .1f;
+        return totalMagicResistance;
+    }
+    public float GetTotalEvasion() => evasion.GetValue() + agility.GetValue() * .1f;
     #endregion
+
+    public Stat GetStat(StatType _statType)
+    {
+        if (_statType == StatType.strengeth)
+            return strengeth;
+        else if (_statType == StatType.agility)
+            return agility;
+        else if (_statType == StatType.intelligence)
+            return intelligence;
+        else if (_statType == StatType.vitality)
+            return vitality;
+        else if (_statType == StatType.phsicalDamage)
+            return phsicalDamage;
+        else if (_statType == StatType.critChance)
+            return critChance;
+        else if (_statType == StatType.critPower)
+            return critPower;
+        else if (_statType == StatType.maxHealth)
+            return maxHealth;
+        else if (_statType == StatType.armor)
+            return armor;
+        else if (_statType == StatType.evasion)
+            return evasion;
+        else if (_statType == StatType.magicResistance)
+            return magicResistance;
+        else if (_statType == StatType.fireDamge)
+            return fireDamge;
+        else if (_statType == StatType.iceDamage)
+            return iceDamage;
+        else if (_statType == StatType.shockDamage)
+            return shockDamage;
+
+        return null;
+    }
 
     protected virtual void Die()
     {

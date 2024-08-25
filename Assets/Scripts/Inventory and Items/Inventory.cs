@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -21,9 +22,12 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform inventorySlotParent;
     [SerializeField] private Transform stashSlotParent;
     [SerializeField] private Transform equipmentSlotParent;
+    [SerializeField] private Transform statSlotParent;
+
     private UI_ItemSlot[] InventoryItemSlots;
     private UI_ItemSlot[] StashItemSlots;
     private UI_EquipmentSlot[] EquipmentSlots;
+    private UI_StatSlot[] StatSlots;
 
     [Header("Item Cooldown")]
     private float lastTimeUsedFlask;
@@ -41,6 +45,7 @@ public class Inventory : MonoBehaviour
         InventoryItemSlots = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         StashItemSlots = stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
         EquipmentSlots = equipmentSlotParent.GetComponentsInChildren<UI_EquipmentSlot>();
+        StatSlots = statSlotParent.GetComponentsInChildren<UI_StatSlot>();
 
     }
 
@@ -135,6 +140,11 @@ public class Inventory : MonoBehaviour
         {
             StashItemSlots[i].UpdateSlot(stash[i]);
         }
+
+        for(int i = 0;i < StatSlots.Length; i++) // update info of stats in character UI
+        {
+            StatSlots[i].UpdateStatValueUI();
+        }
     }
 
     private void CleanUpBeforeUpdate()
@@ -152,7 +162,7 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(ItemData _item)
     {
-        if (_item.itemType == ItemType.Equipment)
+        if (_item.itemType == ItemType.Equipment && CanAddItem())
             AddToInventory(_item);
         else if(_item.itemType == ItemType.Material)
             AddToStash(_item);
@@ -217,6 +227,16 @@ public class Inventory : MonoBehaviour
         }
 
         UpdateSlotUI();
+    }
+
+    public bool CanAddItem()
+    {
+        if (inventory.Count >= InventoryItemSlots.Length)
+        {
+            // Debug.Log("No more space");
+            return false;
+        }
+        return true;
     }
 
     // RemoveItem & CanCraft 都需要改进，现在能够制作物品但必须数量都是一且不能拥有被制作的物品 (solved ?)

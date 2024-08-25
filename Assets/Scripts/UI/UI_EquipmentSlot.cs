@@ -14,7 +14,7 @@ public class UI_EquipmentSlot : UI_ItemSlot
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if (item == null || item.stackSize == 0)
+        if (item == null || item.data == null)
             return;
 
         // Inventory unequip item
