@@ -7,13 +7,13 @@ using UnityEngine.EventSystems;
 
 public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private Image itemImage;
-    [SerializeField] private TextMeshProUGUI itemText;
+    [SerializeField] protected Image itemImage;
+    [SerializeField] protected TextMeshProUGUI itemText;
 
-    private UI ui;
+    protected UI ui;
     public InventoryItem item;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         ui = GetComponentInParent<UI>();
     }
@@ -60,6 +60,8 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         {
             Inventory.instance.EquipItem(item.data);
         }
+
+        ui.itemToolTip.HideToolTip();
     }
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
@@ -67,6 +69,19 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             return;
         Debug.Log("Show Item Info");
         ui.itemToolTip.ShowTollTip(item.data as ItemData_Equipment);
+
+        Vector2 mousePosition = Input.mousePosition;
+        float xOffset = 0;
+        float yOffset = 0;
+        if (mousePosition.x > 600)
+            xOffset = -200;
+        else
+            xOffset = 150;
+        if (mousePosition.y > 320)
+            yOffset = -100;
+        else
+            yOffset = 150;
+        ui.itemToolTip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)

@@ -69,7 +69,8 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < startingItems.Count; i++)
         {
-            AddItem(startingItems[i]);
+            if (startingItems[i] != null)
+                AddItem(startingItems[i]);
         }
     }
 
@@ -255,7 +256,10 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    materialsToRemove.Add(stashValue);
+                    for (int j = 0; j < _requiredMaterials[i].stackSize; j++)
+                    {
+                        materialsToRemove.Add(stashValue);
+                    }
                 }
             }
             else

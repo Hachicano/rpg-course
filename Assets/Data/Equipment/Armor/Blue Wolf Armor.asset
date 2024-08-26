@@ -17,12 +17,13 @@ MonoBehaviour:
   icon: {fileID: 288293509, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   dropChance: 0
   equipmentType: 1
+  itemCooldown: 10
   itemEffects:
   - {fileID: 11400000, guid: e3f89e4db7e322f42adc1ce766241055, type: 2}
-  itemCooldown: 10
+  itemEffectDescription: Froze Enemy around when HP is below 10%.
   strengeth: 4
   agility: 0
-  Intelligence: 0
+  intelligence: 0
   vitality: 0
   phsicalDamage: 0
   critChance: 0
