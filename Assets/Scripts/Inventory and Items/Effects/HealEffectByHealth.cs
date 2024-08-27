@@ -14,7 +14,8 @@ public class HealEffectByHealth : ItemEffect
         PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();
 
         // decide how much to heal
-        float healAmount = Mathf.Round(playerStats.GetTotalMaxHealthValue() * healPercentage);
+        float healAmount = playerStats.GetTotalMaxHealthValue() * healPercentage;
+        healAmount = Mathf.Round(healAmount);
 
         // actually heal
         ///////////////////////////////////////////////

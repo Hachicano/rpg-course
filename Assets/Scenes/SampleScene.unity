@@ -917,7 +917,7 @@ GameObject:
   - component: {fileID: 99399098}
   - component: {fileID: 99399097}
   m_Layer: 5
-  m_Name: SkillTreeSlot_UI - Vulnerabllity
+  m_Name: SkillTreeSlot_UI - Vulnerability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1036,7 +1036,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillName: Vulnerabllity
+  skillPrice: 0
+  skillName: Vulnerability
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
   unlocked: 0
@@ -1044,6 +1045,7 @@ MonoBehaviour:
   - {fileID: 815242191}
   - {fileID: 1218674719}
   shouldBeLocked: []
+  shouldBeLocked4Relock: []
 --- !u!1 &101876929
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,12 +1324,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Dodge
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
   unlocked: 0
   shouldBeUnlocked: []
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 809363501}
 --- !u!222 &115954710
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10029,6 +10034,8 @@ GameObject:
   - component: {fileID: 370036967}
   - component: {fileID: 370036968}
   - component: {fileID: 370036969}
+  - component: {fileID: 370036970}
+  - component: {fileID: 370036971}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -10049,6 +10056,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
+  dashUnlockButton: {fileID: 530967470}
+  cloneOnDashUnlockButton: {fileID: 1170160660}
+  cloneOnArrivalUnlockButton: {fileID: 2140991027}
 --- !u!114 &370036964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10091,13 +10101,15 @@ MonoBehaviour:
   cooldown: 0
   clonePrefab: {fileID: 1186467128698715783, guid: 22b7e3aeeb507124997dc7c9fd828044, type: 3}
   cloneDuration: 1
-  canAttack: 1
-  createCloneOnStart: 1
-  createCloneOnOver: 0
-  createCloneOnParry: 1
-  canDuplicateClone: 1
+  attackMultiplier: 0
+  cloneAttackUnlockButton: {fileID: 1606502085}
+  cloneAttackMultiplier: 0.3
+  aggresiveMirageUnlockButton: {fileID: 1892938709}
+  aggresiveMirageMultiplier: 1
+  multipleMirageUnlockButton: {fileID: 1611261584}
+  multipleMirageMultiplier: 0.2
   duplicateChance: 30
-  crystalAsClone: 0
+  crystalMirageUnlockButton: {fileID: 1550453029}
 --- !u!114 &370036967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10112,20 +10124,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 0
   swordType: 0
+  bounceUnlockButton: {fileID: 1313828917}
+  bounceUnlocked: 0
   bounceAmount: 4
   bounceGravity: 1
   bounceSpeed: 20
+  pierceUnlockButton: {fileID: 1347656528}
+  pierceUnlocked: 0
   pierceAmount: 2
   pierceGravity: 0.2
+  spinUnlockButton: {fileID: 1360747747}
+  spinUnlocked: 0
   spinDuration: 2
   maxTravelDistance: 7
   spinGravity: 1
   hitCooldown: 0.35
+  swordUnlockButton: {fileID: 815242191}
   swordPrefab: {fileID: 6444838746120601925, guid: 364b09989d42d8346b841bdf34aadc8d, type: 3}
   launchForce: {x: 30, y: 25}
   swordGravity: 4.5
   freezeTimeDuration: 0.5
   returnSpeed: 40
+  timeStopUnlockButton: {fileID: 1218674719}
+  vulnerabilityUnlockButton: {fileID: 99399100}
   numberOfDots: 20
   spaceBetweenDots: 0.07
   dotPrefab: {fileID: 2227895153619363067, guid: e1affa034e2afaf4ea28cf4944af9d27, type: 3}
@@ -10143,6 +10164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
+  blackholeUnlockButton: {fileID: 1814184385}
   blackholePrefab: {fileID: 2581343398065549807, guid: 332ee109e1ae24a4ab037ffd7f75145d, type: 3}
   blackholeDuration: 5
   maxSize: 15
@@ -10167,11 +10189,12 @@ MonoBehaviour:
   cooldown: 0
   crystalPrefab: {fileID: 5349395411061111021, guid: 5392c2f5f7afcde4d8a60b6fe60370ba, type: 3}
   crystalDuration: 1.5
-  cloneInsteadOfCrystal: 0
-  canExplode: 1
-  canMoveToEnemy: 1
+  crystalUnlockButton: {fileID: 2029818414}
+  crystalBlinkUnlockButton: {fileID: 2041052372}
+  crystalExplosionUnlockButton: {fileID: 646198413}
+  crystalControlledDestructionUnlockButton: {fileID: 595923490}
   crystalMoveSpeed: 7
-  canUseMultiStacks: 1
+  multipleCrystalUnlockButton: {fileID: 933424620}
   amountOfStacks: 3
   multiStackCooldown: 4
   useTimeWindow: 2.5
@@ -10179,6 +10202,39 @@ MonoBehaviour:
   - {fileID: 5349395411061111021, guid: 5392c2f5f7afcde4d8a60b6fe60370ba, type: 3}
   - {fileID: 5349395411061111021, guid: 5392c2f5f7afcde4d8a60b6fe60370ba, type: 3}
   - {fileID: 5349395411061111021, guid: 5392c2f5f7afcde4d8a60b6fe60370ba, type: 3}
+--- !u!114 &370036970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370036962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1316650e849d154cbcc3f1a167bd523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  parryUnlockButton: {fileID: 958125220}
+  parryRestoreUnlockButton: {fileID: 1052548998}
+  restorePercentage: 0.2
+  parryMirageUnlockButton: {fileID: 1924731932}
+--- !u!114 &370036971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370036962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81ddf9d163ca5544b91e0ef2ab9a633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  evasionAmountFromDodge: 100
+  dodgeUnlockButton: {fileID: 115954709}
+  dodgeMirageUnlockButton: {fileID: 809363501}
 --- !u!1 &370161389
 GameObject:
   m_ObjectHideFlags: 0
@@ -12629,10 +12685,10 @@ RectTransform:
   - {fileID: 383900098}
   m_Father: {fileID: 1092863471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 275, y: -50}
+  m_SizeDelta: {x: 350, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &504933127
 MonoBehaviour:
@@ -12762,10 +12818,10 @@ RectTransform:
   - {fileID: 392761778}
   m_Father: {fileID: 1092863471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 695, y: -50}
+  m_SizeDelta: {x: 350, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &508108327
 MonoBehaviour:
@@ -13744,12 +13800,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 100
   skillName: Dash
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
   unlocked: 0
   shouldBeUnlocked: []
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 1170160660}
 --- !u!222 &530967471
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14607,6 +14666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Controlled Destruction
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -14614,6 +14674,8 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 646198413}
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 933424620}
 --- !u!222 &595923491
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15037,6 +15099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Crystal Explosion
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -15045,6 +15108,8 @@ MonoBehaviour:
   - {fileID: 2029818414}
   shouldBeLocked:
   - {fileID: 2041052372}
+  shouldBeLocked4Relock:
+  - {fileID: 595923490}
 --- !u!222 &646198414
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17093,6 +17158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Dodge Mirage
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -17100,6 +17166,7 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 115954709}
   shouldBeLocked: []
+  shouldBeLocked4Relock: []
 --- !u!222 &809363502
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17241,12 +17308,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Sword Throw
   skillDescription: Throw Sword into the Enemy.
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
   unlocked: 0
   shouldBeUnlocked: []
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 1360747747}
+  - {fileID: 1347656528}
+  - {fileID: 1313828917}
+  - {fileID: 1218674719}
 --- !u!1 &824102163
 GameObject:
   m_ObjectHideFlags: 0
@@ -18209,6 +18282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Multiple Destruction
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -18216,6 +18290,7 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 595923490}
   shouldBeLocked: []
+  shouldBeLocked4Relock: []
 --- !u!222 &933424621
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18531,12 +18606,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Parry
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
   unlocked: 0
   shouldBeUnlocked: []
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 1052548998}
 --- !u!222 &958125221
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19390,6 +19468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Restore with Parry
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -19397,6 +19476,8 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 958125220}
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 1924731932}
 --- !u!222 &1052548999
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21052,6 +21133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 500
   skillName: Dash - "Here I am"
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -21059,6 +21141,8 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 530967470}
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 2140991027}
 --- !u!222 &1170160661
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21570,6 +21654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Time Stop
   skillDescription: When Enemy hitted by Sword, Its time Stops.
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -21577,6 +21662,8 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 815242191}
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 99399100}
 --- !u!1 &1221689874
 GameObject:
   m_ObjectHideFlags: 0
@@ -22767,6 +22854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Bouncy Sword
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -22776,6 +22864,7 @@ MonoBehaviour:
   shouldBeLocked:
   - {fileID: 1360747747}
   - {fileID: 1347656528}
+  shouldBeLocked4Relock: []
 --- !u!1 &1315937539
 GameObject:
   m_ObjectHideFlags: 0
@@ -22824,7 +22913,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1324416163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23191,8 +23280,8 @@ RectTransform:
   - {fileID: 1313828913}
   - {fileID: 1606502082}
   - {fileID: 1892938706}
-  - {fileID: 1611261581}
   - {fileID: 1550453026}
+  - {fileID: 1611261581}
   - {fileID: 1814184382}
   - {fileID: 2029818411}
   - {fileID: 2041052369}
@@ -23385,6 +23474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Bullet Sword
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -23394,6 +23484,7 @@ MonoBehaviour:
   shouldBeLocked:
   - {fileID: 1360747747}
   - {fileID: 1313828917}
+  shouldBeLocked4Relock: []
 --- !u!1 &1359606747
 GameObject:
   m_ObjectHideFlags: 0
@@ -23661,6 +23752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Chainsaw Sword
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -23670,6 +23762,7 @@ MonoBehaviour:
   shouldBeLocked:
   - {fileID: 1347656528}
   - {fileID: 1313828917}
+  shouldBeLocked4Relock: []
 --- !u!1 &1373978721
 GameObject:
   m_ObjectHideFlags: 0
@@ -24234,10 +24327,10 @@ RectTransform:
   - {fileID: 489521423}
   m_Father: {fileID: 1092863471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1535, y: -50}
+  m_SizeDelta: {x: 350, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1405836367
 MonoBehaviour:
@@ -26296,6 +26389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Crystal Mirage
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -26304,6 +26398,7 @@ MonoBehaviour:
   - {fileID: 1892938709}
   shouldBeLocked:
   - {fileID: 1611261584}
+  shouldBeLocked4Relock: []
 --- !u!222 &1550453030
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -27027,12 +27122,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Time Mirage
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
   unlocked: 0
   shouldBeUnlocked: []
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 1892938709}
+  - {fileID: 1814184385}
 --- !u!222 &1606502086
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -27300,6 +27399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Multiple Mirage
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -27308,6 +27408,7 @@ MonoBehaviour:
   - {fileID: 1892938709}
   shouldBeLocked:
   - {fileID: 1550453029}
+  shouldBeLocked4Relock: []
 --- !u!222 &1611261585
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -28295,10 +28396,10 @@ RectTransform:
   - {fileID: 490912858}
   m_Father: {fileID: 1092863471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1115, y: -50}
+  m_SizeDelta: {x: 350, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1715329419
 MonoBehaviour:
@@ -29258,6 +29359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: BlackHole
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -29265,6 +29367,7 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 1606502085}
   shouldBeLocked: []
+  shouldBeLocked4Relock: []
 --- !u!222 &1814184386
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34844,6 +34947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Aggressive Mirage
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -34851,6 +34955,9 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 1606502085}
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 1550453029}
+  - {fileID: 1611261584}
 --- !u!222 &1892938710
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -35380,6 +35487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Parry with a mirage
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -35387,6 +35495,7 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 1052548998}
   shouldBeLocked: []
+  shouldBeLocked4Relock: []
 --- !u!222 &1924731933
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -35582,7 +35691,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: []
   phsicalDamage:
-    baseValue: 0
+    baseValue: 10
     modifiers: []
   critChance:
     baseValue: 0
@@ -35591,7 +35700,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: []
   maxHealth:
-    baseValue: 100
+    baseValue: 150
     modifiers: []
   armor:
     baseValue: 0
@@ -36331,6 +36440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1924835452}
+  currency: 100000
 --- !u!4 &2001376446
 Transform:
   m_ObjectHideFlags: 0
@@ -36684,12 +36794,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Crystal
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
   unlocked: 0
   shouldBeUnlocked: []
   shouldBeLocked: []
+  shouldBeLocked4Relock:
+  - {fileID: 2041052372}
+  - {fileID: 646198413}
 --- !u!222 &2029818415
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36823,6 +36937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 0
   skillName: Crystal Blink
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -36831,6 +36946,7 @@ MonoBehaviour:
   - {fileID: 2029818414}
   shouldBeLocked:
   - {fileID: 646198413}
+  shouldBeLocked4Relock: []
 --- !u!222 &2041052373
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -37889,6 +38005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29deaefaedc2f54b9ce61d48f5dad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillPrice: 2000
   skillName: Dash - "Actually Here I am"
   skillDescription: 
   lockedSkillColor: {r: 0.49411765, g: 0.4117647, b: 0.4117647, a: 1}
@@ -37896,6 +38013,7 @@ MonoBehaviour:
   shouldBeUnlocked:
   - {fileID: 1170160660}
   shouldBeLocked: []
+  shouldBeLocked4Relock: []
 --- !u!222 &2140991028
 CanvasRenderer:
   m_ObjectHideFlags: 0

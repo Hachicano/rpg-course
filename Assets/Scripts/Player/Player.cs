@@ -86,7 +86,7 @@ public class Player : Entity
         stateMachine.currentState.Update();
         checkForDashInput();
 
-        if (Input.GetKeyDown(KeyCode.Mouse3)) 
+        if (Input.GetKeyDown(KeyCode.Mouse3) && skill.crystal.crystalUnlockButton.unlocked) 
         {
             skill.crystal.CanUseSkill();
         }
@@ -143,6 +143,9 @@ public class Player : Entity
         {
             return;
         }
+
+        if (skill.dash.dashUnlockButton.unlocked == false)
+            return;
 
         // Skill Manager–¥∑®
         if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())

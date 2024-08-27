@@ -73,11 +73,12 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         Vector2 mousePosition = Input.mousePosition;
         float xOffset = 0;
         float yOffset = 0;
-        if (mousePosition.x > 600)
+        if (mousePosition.x > (Screen.currentResolution.width / 2)) // 600
             xOffset = -200;
         else
-            xOffset = 150;
-        if (mousePosition.y > 320)
+            xOffset = 250;
+
+        if (mousePosition.y > (Screen.currentResolution.height / 2)) // 320
             yOffset = -100;
         else
             yOffset = 150;

@@ -53,7 +53,8 @@ public class EnemyStats : CharacterStats
         for (int i = 1; i < level; i++)
         {
             float modifier = _stat.GetValue() * percentageModifier;
-            _stat.AddModifier(Mathf.Round(modifier));
+            modifier = Mathf.Round(modifier);
+            _stat.AddModifier(modifier);
         }
     }
 

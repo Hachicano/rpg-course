@@ -40,4 +40,29 @@ public class PlayerStats : CharacterStats
             currentArmor.Effect(player.transform);
         }
     }
+
+    public override void OnEvasion()
+    {
+        player.skill.dodge.CreateMirageOnDodge();
+    }
+
+    public void CloneDoDamage(CharacterStats _targetStats, float _multiplier)
+    {
+        if (TargetCanAvoidAttack(_targetStats))
+            return;
+
+        float totalDamage = GetTotalPhisicalDamgeValue();
+        if (_multiplier > 0)
+            totalDamage = totalDamage * _multiplier;
+        totalDamage = Mathf.Round(totalDamage);
+
+        if (canCrit(_targetStats))
+        {
+            totalDamage = CalculateCritDamage(totalDamage);
+        }
+
+        totalDamage = CheckTargetArmor(_targetStats, totalDamage);
+
+        _targetStats.TakeDamage(totalDamage);
+    }
 }

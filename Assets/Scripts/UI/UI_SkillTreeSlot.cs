@@ -9,6 +9,7 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private UI ui;
     private Image skillImage; // Used for assgin skill icon, now can be hidden(remove [SerializeField]) cause it is not gonna being used.
 
+    [SerializeField] private int skillPrice;
     [SerializeField] private string skillName;
     [TextArea]
     [SerializeField] private string skillDescription;
@@ -18,6 +19,7 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     [SerializeField] private UI_SkillTreeSlot[] shouldBeUnlocked;
     [SerializeField] private UI_SkillTreeSlot[] shouldBeLocked;
+    [SerializeField] private UI_SkillTreeSlot[] shouldBeLocked4Relock;
 
 
 
@@ -31,31 +33,55 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         ui = GetComponentInParent<UI>();
         skillImage = GetComponent<Image>();
         skillImage.color = lockedSkillColor;
-        GetComponent<Button>().onClick.AddListener(() => UnlockSkillSlot());
+        GetComponent<Button>().onClick.AddListener(() => UnlockSkillSlot()); // Skill_UI should be active on the beginning
+                                                                             // Otherwise it wont work properly.
     }
 
     public void UnlockSkillSlot()
     {
-        for (int i = 0; i < shouldBeUnlocked.Length; i++)
+        if (!unlocked)
         {
-            if (shouldBeUnlocked[i].unlocked == false)
+            for (int i = 0; i < shouldBeUnlocked.Length; i++)
             {
-                Debug.Log("Cannot unlock skill");
-                return;
+                if (shouldBeUnlocked[i].unlocked == false)
+                {
+                    Debug.Log("Cannot unlock skill");
+                    return;
+                }
             }
+
+            for (int i = 0; i < shouldBeLocked.Length; i++)
+            {
+                if (shouldBeLocked[i].unlocked == true)
+                {
+                    Debug.Log("Cannot unlock skill");
+                    return;
+                }
+            }
+
+            if (PlayerManager.instance.HaveEnoughMoney(skillPrice) == false)
+                return;
+
+            unlocked = true;
+            skillImage.color = Color.white;
+        }
+        else if (unlocked)
+        {
+            for(int i = 0;i < shouldBeLocked4Relock.Length; i++)
+            {
+                if (shouldBeLocked4Relock[i].unlocked == true)
+                {
+                    Debug.Log("Cannot relock skill");
+                    return;
+                }
+            }
+
+            PlayerManager.instance.ReturnMoney(skillPrice);
+            unlocked = false;
+            skillImage.color = lockedSkillColor;
         }
 
-        for (int i = 0; i < shouldBeLocked.Length; i++)
-        {
-            if (shouldBeLocked[i].unlocked == true)
-            {
-                Debug.Log("Cannot unlock skill");
-                return;
-            }
-        }
 
-        unlocked = true;
-        skillImage.color = Color.white;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

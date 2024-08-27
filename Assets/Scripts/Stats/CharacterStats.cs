@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 public enum StatType
 {
@@ -66,7 +65,8 @@ public class CharacterStats : MonoBehaviour
 
     public float currentHealth;
     public System.Action onHealthChanged;
-    public bool isDead {  get; private set; }
+    private bool isVulnerable;
+    public bool isDead { get; private set; }
 
     protected virtual void Awake()
     {
@@ -102,7 +102,18 @@ public class CharacterStats : MonoBehaviour
         ApplyIgniteDamage();
     }
 
-    public virtual void IncreaseStatBy (float _modifier, float _duration, Stat _statToModify)
+    public void MakeVunerableFor(float _duration) => StartCoroutine(VulnerableCoroutine(_duration));
+
+    private IEnumerator VulnerableCoroutine(float _duration)
+    {
+        isVulnerable = true;
+
+        yield return new WaitForSeconds(_duration);
+
+        isVulnerable = false;
+    }
+
+    public virtual void IncreaseStatBy(float _modifier, float _duration, Stat _statToModify)
     {
         // start a coroutine for stat increase
         StartCoroutine(StatModifyCoroutine(_modifier, _duration, _statToModify));
@@ -141,8 +152,6 @@ public class CharacterStats : MonoBehaviour
         GetComponent<Entity>().DamageImpact();
         fx.StartCoroutine(nameof(fx.FlashFX));
 
-        Debug.Log(_damage);
-
         if (currentHealth < 0 && !isDead)
         {
             currentHealth = 0;
@@ -152,9 +161,11 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void DecreaseHealthBy(float _damage)
     {
-        currentHealth -= _damage;
-        if(currentHealth > GetTotalMaxHealthValue())
-            currentHealth = GetTotalMaxHealthValue();
+        if (isVulnerable)
+            _damage = _damage * 1.5f;
+        _damage = Mathf.Round(_damage);
+        Debug.Log(_damage);
+        currentHealth -= Mathf.Round(_damage);
 
         if (onHealthChanged != null)
             onHealthChanged();
@@ -163,6 +174,10 @@ public class CharacterStats : MonoBehaviour
     public virtual void IncreaseHealthBy(float _heal)
     {
         currentHealth += _heal;
+
+        if (currentHealth > GetTotalMaxHealthValue())
+            currentHealth = GetTotalMaxHealthValue();
+
         if (onHealthChanged != null)
             onHealthChanged();
     }
@@ -222,9 +237,17 @@ public class CharacterStats : MonoBehaviour
         _targetStats.TakeDamage(totalMagicalDamge);
 
         if (canApplyIgnite)
-            _targetStats.SetupIgniteDamage(Mathf.Round(_fireDamage * .1f));
+        {
+            float fire = _fireDamage * .1f;
+            fire = Mathf.Round(fire);
+            _targetStats.SetupIgniteDamage(fire);
+        }
         if (canApplyShock)
-            _targetStats.SetupShockDamge(Mathf.Round(_shockDamage * .2f));
+        {
+            float shock = _shockDamage * .2f;
+            shock = Mathf.Round(shock);
+            _targetStats.SetupShockDamge(shock);
+        }
 
         _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock);
     }
@@ -336,7 +359,7 @@ public class CharacterStats : MonoBehaviour
     #endregion
 
     #region Stats Calculation
-    private float CheckTargetArmor(CharacterStats _targetStats, float totalDamage)
+    protected float CheckTargetArmor(CharacterStats _targetStats, float totalDamage)
     {
         float _iceResistance = _targetStats.iceDamage.GetValue() * .05f;
         totalDamage -= _targetStats.armor.GetValue() + _iceResistance;
@@ -357,7 +380,12 @@ public class CharacterStats : MonoBehaviour
         return totalMagicalDamge;
     }
 
-    private bool TargetCanAvoidAttack(CharacterStats _targetStats)
+    public virtual void OnEvasion()
+    {
+
+    }
+
+    protected bool TargetCanAvoidAttack(CharacterStats _targetStats)
     {
         float totalEvasion = _targetStats.GetTotalEvasion();
 
@@ -367,11 +395,12 @@ public class CharacterStats : MonoBehaviour
         if (Random.Range(0, 100) < totalEvasion)
         {
             // Debug.Log("Attack avoided");
+            _targetStats.OnEvasion();
             return true;
         }
         return false;
     }
-    private bool canCrit(CharacterStats _targetStats)
+    protected bool canCrit(CharacterStats _targetStats)
     {
         float totalCriticalChance = GetTotalCritChance();
         if (_targetStats.isChilled)
@@ -382,7 +411,7 @@ public class CharacterStats : MonoBehaviour
         }
         return false;
     }
-    private float CalculateCritDamage(float _damage)
+    protected float CalculateCritDamage(float _damage)
     {
         float totalCritPower = GetTotalCritPower() * .1f;
 

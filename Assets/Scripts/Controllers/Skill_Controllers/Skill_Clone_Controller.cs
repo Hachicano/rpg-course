@@ -11,6 +11,7 @@ public class Skill_Clone_Controller : MonoBehaviour
     [SerializeField] private float colorLosingSpeed;
 
     private float cloneTimer;
+    private float attackMultiplier;
     [SerializeField] private Transform attackCheck;
     [SerializeField] private float attackCheckRadius = .8f;
     private Transform closestEnemy;
@@ -38,7 +39,7 @@ public class Skill_Clone_Controller : MonoBehaviour
         }
     }
 
-    public void SetupClone(Transform _newTransform, float _cloneDuration, bool _canAttack, Vector3 _offset, Transform _closestEnemy, bool _canDuplicateClone, float _duplicateChance)
+    public void SetupClone(Transform _newTransform, float _cloneDuration, bool _canAttack, Vector3 _offset, Transform _closestEnemy, bool _canDuplicateClone, float _duplicateChance, float _attackMultiplier)
     {
         if (_canAttack )
         {
@@ -50,6 +51,7 @@ public class Skill_Clone_Controller : MonoBehaviour
         closestEnemy = _closestEnemy;
         canDuplicateClone = _canDuplicateClone;
         duplicateChance = _duplicateChance;
+        attackMultiplier = _attackMultiplier;
 
         FaceClosestTarget();
     }
@@ -67,18 +69,26 @@ public class Skill_Clone_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                PlayerManager.instance.player.stats.DoDamage(hit.GetComponent<CharacterStats>());
+                Player player = PlayerManager.instance.player;
+                // PlayerManager.instance.player.stats.DoDamage(hit.GetComponent<CharacterStats>());
+                PlayerStats playerStats = player.GetComponent<PlayerStats>();
+                EnemyStats enemyStats = hit.GetComponent<EnemyStats>();
 
-                // inventory get weapon call item effect
-                ItemData_Equipment equipedWeapon = Inventory.instance.GetEquipment(EquipmentType.Weapon);
-                ItemData_Equipment equipedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
-                if (equipedAmulet != null)
+                playerStats.CloneDoDamage(enemyStats, attackMultiplier);
+
+                if (player.skill.clone.canApplyOnHitEffect)
                 {
-                    equipedAmulet.Effect(hit.transform);
-                }
-                else if (equipedWeapon != null)
-                {
-                    equipedWeapon.Effect(hit.transform);
+                    // inventory get weapon call item effect
+                    ItemData_Equipment equipedWeapon = Inventory.instance.GetEquipment(EquipmentType.Weapon);
+                    ItemData_Equipment equipedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
+                    if (equipedAmulet != null)
+                    {
+                        equipedAmulet.Effect(hit.transform);
+                    }
+                    else if (equipedWeapon != null)
+                    {
+                        equipedWeapon.Effect(hit.transform);
+                    }
                 }
 
                 if (canDuplicateClone)

@@ -17,7 +17,7 @@ public class UI : MonoBehaviour
 
     private void Awake()
     {
-
+        SwitchTo(skillUI); // we need this to assgin event on skill tree slot before we assgin events on skill scripts.
     }
 
     void Start()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Skill_Crystal : Skill
 {
@@ -8,23 +9,84 @@ public class Skill_Crystal : Skill
     [SerializeField] private float crystalDuration;
     private GameObject currentCrystal;
 
-    [Header("Crystal Mirage")]
-    [SerializeField] private bool cloneInsteadOfCrystal;
+    [Header("Crystal")]
+    [SerializeField] public UI_SkillTreeSlot crystalUnlockButton;
+    public bool crystalUnlocked {  get; private set; }
 
-    [Header("Explosive Crystal")]
-    [SerializeField] private bool canExplode;
+    [Header("Crystal Blink")]
+    [SerializeField] private UI_SkillTreeSlot crystalBlinkUnlockButton;
+    public bool crystalBlinkUnlocked { get; private set; }
 
-    [Header("Moving Crystal")]
-    [SerializeField] private bool canMoveToEnemy;
+    [Header("Crystal Explosion")]
+    [SerializeField] private UI_SkillTreeSlot crystalExplosionUnlockButton;
+    public bool crystalExplosionUnlocked { get; private set; }
+
+    [Header("Controlled Destruction")]
+    [SerializeField] private UI_SkillTreeSlot crystalControlledDestructionUnlockButton;
     [SerializeField] private float crystalMoveSpeed;
+    public bool crystalControlledDestructionUnlocked { get; private set; }
 
-    [Header("Multi Stacking Crystal")]
-    [SerializeField] private bool canUseMultiStacks;
+    [Header("Multiple Crystal")]
+    [SerializeField] private UI_SkillTreeSlot multipleCrystalUnlockButton;
     [SerializeField] private int amountOfStacks;
     [SerializeField] private float multiStackCooldown;
     [SerializeField] private float useTimeWindow;
     [SerializeField] private List<GameObject> crystalLeft = new List<GameObject>();
+    public bool multipleCrystalUnlocked { get; private set; }
 
+    protected override void Start()
+    {
+        base.Start();
+
+        crystalUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystal);
+        crystalBlinkUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalBlink);
+        crystalExplosionUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalExplosion);
+        crystalControlledDestructionUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalControlledDestruction);
+        multipleCrystalUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockMultipleCrystal);
+
+    }
+
+    #region unlock skill region
+    private void UnlockCrystal()
+    {
+        if (crystalUnlockButton.unlocked)
+        {
+            crystalUnlocked = true;
+        }
+    }
+
+    private void UnlockCrystalBlink()
+    {
+        if (crystalBlinkUnlockButton.unlocked)
+        {
+            crystalBlinkUnlocked = true;
+        }
+    }
+
+    private void UnlockCrystalExplosion()
+    {
+        if (crystalExplosionUnlockButton.unlocked)
+        {
+            crystalExplosionUnlocked = true;
+        }
+    }
+
+    private void UnlockCrystalControlledDestruction()
+    {
+        if (crystalControlledDestructionUnlockButton.unlocked)
+        {
+            crystalControlledDestructionUnlocked = true;
+        }
+    }
+
+    private void UnlockMultipleCrystal()
+    {
+        if (multipleCrystalUnlockButton.unlocked)
+        {
+            multipleCrystalUnlocked = true;
+        }
+    }
+    #endregion
 
     public override void UseSkill()
     {
@@ -39,7 +101,7 @@ public class Skill_Crystal : Skill
         }
         else
         {
-            if (canMoveToEnemy) // If we dont want player can swap position when crystal is moving, some kind of getting but losing,
+            if (crystalControlledDestructionUnlockButton.unlocked) // If we dont want player can swap position when crystal is moving, some kind of getting but losing,
                 return;                // then just constrain this ability.
 
             Vector2 playerPosition = player.transform.position;
@@ -47,7 +109,7 @@ public class Skill_Crystal : Skill
             player.transform.position = currentCrystal.transform.position;
             currentCrystal.transform.position = playerPosition;
 
-            if (cloneInsteadOfCrystal)
+            if (crystalBlinkUnlockButton.unlocked)
             {
                 SkillManager.instance.clone.CreateClone(currentCrystal.transform, Vector3.zero);
                 Destroy(currentCrystal);
@@ -61,7 +123,7 @@ public class Skill_Crystal : Skill
         currentCrystal = Instantiate(crystalPrefab, player.transform.position, Quaternion.identity);
         Skill_Crystal_Controller currentCrystalScript = currentCrystal.GetComponent<Skill_Crystal_Controller>();
 
-        currentCrystalScript.SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, crystalMoveSpeed, FindClosestEnemy(currentCrystal.transform));
+        currentCrystalScript.SetupCrystal(crystalDuration, crystalExplosionUnlockButton.unlocked, crystalControlledDestructionUnlockButton.unlocked, crystalMoveSpeed, FindClosestEnemy(currentCrystal.transform));
     }
 
     public void CurrentCrystalChooseRandomTarget() => currentCrystal.GetComponent<Skill_Crystal_Controller>().ChooseRandomEnemy();
@@ -69,7 +131,7 @@ public class Skill_Crystal : Skill
 
     private bool CanUseMultiCrystal()
     {
-        if (canUseMultiStacks)
+        if (multipleCrystalUnlockButton.unlocked)
         {
             if (crystalLeft.Count == amountOfStacks)
             {
@@ -85,7 +147,7 @@ public class Skill_Crystal : Skill
 
                 crystalLeft.Remove(crystalToSpawn);
                 newCrystal.GetComponent<Skill_Crystal_Controller>().
-                    SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, crystalMoveSpeed, FindClosestEnemy(newCrystal.transform));
+                    SetupCrystal(crystalDuration, crystalExplosionUnlockButton.unlocked, crystalControlledDestructionUnlockButton.unlocked, crystalMoveSpeed, FindClosestEnemy(newCrystal.transform));
                 if (crystalLeft.Count <= 0)
                 {
                     // cooldown the skill and refill the crystal
@@ -95,6 +157,7 @@ public class Skill_Crystal : Skill
                 return true;
             }
         }
+        cooldown = 0;
         return false;
     }
 

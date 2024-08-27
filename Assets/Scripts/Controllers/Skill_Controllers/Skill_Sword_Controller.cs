@@ -244,8 +244,15 @@ public class Skill_Sword_Controller : MonoBehaviour
 
     private void DamagAndFreeze(Enemy enemy)
     {
-        PlayerManager.instance.player.stats.DoDamage(enemy.GetComponent<CharacterStats>());
-        enemy.FreezeTimeFor(freezeTimeDuration);
+        EnemyStats enemyStats = enemy.GetComponent<EnemyStats>();
+
+        PlayerManager.instance.player.stats.DoDamage(enemyStats);
+
+        if (player.skill.sword.timeStopUnlocked)
+            enemy.FreezeTimeFor(freezeTimeDuration);
+
+        if (player.skill.sword.vulnerabilityUnlocked)
+            enemyStats.MakeVunerableFor(freezeTimeDuration + 10f);
 
         Inventory.instance.GetEquipment(EquipmentType.Amulet)?.Effect(enemy.transform);
     }
