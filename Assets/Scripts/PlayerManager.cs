@@ -37,4 +37,5 @@ public class PlayerManager : MonoBehaviour
     {
         currency += _price;
     }
+    public int GetCurrency() => currency;
 }

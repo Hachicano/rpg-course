@@ -9,7 +9,7 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private UI ui;
     private Image skillImage; // Used for assgin skill icon, now can be hidden(remove [SerializeField]) cause it is not gonna being used.
 
-    [SerializeField] private int skillPrice;
+    [SerializeField] private int skillCost;
     [SerializeField] private string skillName;
     [TextArea]
     [SerializeField] private string skillDescription;
@@ -59,7 +59,7 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 }
             }
 
-            if (PlayerManager.instance.HaveEnoughMoney(skillPrice) == false)
+            if (PlayerManager.instance.HaveEnoughMoney(skillCost) == false)
                 return;
 
             unlocked = true;
@@ -76,7 +76,7 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 }
             }
 
-            PlayerManager.instance.ReturnMoney(skillPrice);
+            PlayerManager.instance.ReturnMoney(skillCost);
             unlocked = false;
             skillImage.color = lockedSkillColor;
         }
@@ -86,7 +86,7 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ui.skillToolTip.ShowToolTip(skillName ,skillDescription);
+        ui.skillToolTip.ShowToolTip(skillName ,skillDescription, skillCost);
     }
 
     public void OnPointerExit(PointerEventData eventData)

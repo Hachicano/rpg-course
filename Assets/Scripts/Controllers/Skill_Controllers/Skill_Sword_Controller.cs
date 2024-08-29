@@ -155,6 +155,8 @@ public class Skill_Sword_Controller : MonoBehaviour
         isReturning = true;
         canRotate = true;
         anim.SetBool("Rotation", true);
+
+        // if you want sword having cooldown, then set cooldown here by a timer or something else
     }
     private void BounceLogic()
     {

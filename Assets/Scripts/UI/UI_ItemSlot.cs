@@ -69,20 +69,6 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             return;
         Debug.Log("Show Item Info");
         ui.itemToolTip.ShowTollTip(item.data as ItemData_Equipment);
-
-        Vector2 mousePosition = Input.mousePosition;
-        float xOffset = 0;
-        float yOffset = 0;
-        if (mousePosition.x > (Screen.currentResolution.width / 2)) // 600
-            xOffset = -200;
-        else
-            xOffset = 250;
-
-        if (mousePosition.y > (Screen.currentResolution.height / 2)) // 320
-            yOffset = -100;
-        else
-            yOffset = 150;
-        ui.itemToolTip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)
