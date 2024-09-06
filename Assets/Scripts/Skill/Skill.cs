@@ -60,4 +60,6 @@ public class Skill : MonoBehaviour
 
         return closestEnemy;
     }
+
+    public virtual float GetCooldownTimer() => cooldownTimer;
 }

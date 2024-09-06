@@ -42,32 +42,22 @@ public class Skill_Parry : Skill
 
     private void UnlockParry()
     {
-        if (parryUnlockButton.unlocked)
-        {
-            parryUnlocked = true;
-        }
+        parryUnlocked = parryUnlockButton.unlocked;
     }
 
     private void UnlockParryRestore()
     {
-        if (parryRestoreUnlockButton.unlocked)
-        {
-            parryRestoreUnlocked = true;
-        }
+        parryRestoreUnlocked = parryRestoreUnlockButton.unlocked;
     }
 
     private void UnlockParryMirage()
     {
-        if (parryMirageUnlockButton.unlocked)
-        {
-            parryMirageUnlocked = true;
-        }
-
+        parryMirageUnlocked = parryMirageUnlockButton.unlocked;
     }
 
     public void MakeMirageOnParry(Transform _transform, float _delay)
     {
-        if (parryMirageUnlockButton.unlocked)
+        if (parryMirageUnlocked)
         {
             SkillManager.instance.clone.CreateCloneOnParry(_transform, _delay);
         }

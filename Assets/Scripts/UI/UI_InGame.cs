@@ -43,7 +43,7 @@ public class UI_InGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1) && skill.sword.swordUnlocked)
             SetCooldownOf(swordImage);
 
-        if (Input.GetKeyDown(KeyCode.T) && skill.blackhole.blackholeUnlocked)
+        if (skill.blackhole.blackholeUnlocked && PlayerManager.instance.player.blackholeState.skillFinished)
             SetCooldownOf(blackholeImage);
 
         if (Input.GetKeyDown(KeyCode.R) && Inventory.instance.GetEquipment(EquipmentType.Flask) != null)

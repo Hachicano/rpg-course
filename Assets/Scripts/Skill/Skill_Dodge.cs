@@ -43,15 +43,12 @@ public class Skill_Dodge : Skill
 
     private void UnlockDodgeMirage()
     {
-        if (dodgeMirageUnlockButton.unlocked)
-        {
-            dodgeMirageUnlocked = true;
-        }
+        dodgeMirageUnlocked = dodgeMirageUnlockButton.unlocked;
     }
 
     public void CreateMirageOnDodge()
     {
-        if (dodgeMirageUnlockButton.unlocked)
+        if (dodgeMirageUnlocked)
         {
             SkillManager.instance.clone.CreateClone(player.transform, new Vector3(2 * player.facingDir, 0)); 
         }

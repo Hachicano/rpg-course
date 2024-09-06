@@ -22,7 +22,7 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.T) && player.skill.blackhole.blackholeUnlocked)
+        if (Input.GetKeyDown(KeyCode.T) && player.skill.blackhole.blackholeUnlocked && player.skill.blackhole.GetCooldownTimer() <= 0)
         {
             stateMachine.changeState(player.blackholeState);
             return;
@@ -34,7 +34,7 @@ public class PlayerGroundedState : PlayerState
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.F) && player.skill.parry.parryUnlockButton.unlocked)
+        if(Input.GetKeyDown(KeyCode.F) && player.skill.parry.parryUnlocked)
         {
             stateMachine.changeState(player.counterAttack);
             return;

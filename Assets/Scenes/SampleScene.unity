@@ -10714,7 +10714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
-  evasionAmountFromDodge: 10
+  evasionAmountFromDodge: 100
   dodgeUnlockButton: {fileID: 115954709}
   dodgeMirageUnlockButton: {fileID: 809363501}
 --- !u!1 &370161389
