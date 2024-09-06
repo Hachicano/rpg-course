@@ -91,6 +91,16 @@ public class Skill_Sword : Skill
         }
     }
 
+    protected override void CheckUnlock()
+    {
+        UnlockSword();
+        UnlockTimeStop();
+        UnlockVulnerability();
+        UnlockBounceSword();
+        UnlockPierceSword();
+        UnlockSpinSword();
+    }
+
     #region Unlock region
 
     public void UnlockSword()

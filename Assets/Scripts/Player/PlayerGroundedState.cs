@@ -34,7 +34,7 @@ public class PlayerGroundedState : PlayerState
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.F) && player.skill.parry.parryUnlocked)
+        if(Input.GetKeyDown(KeyCode.F) && player.skill.parry.parryUnlocked && player.skill.parry.CanUseSkill())
         {
             stateMachine.changeState(player.counterAttack);
             return;

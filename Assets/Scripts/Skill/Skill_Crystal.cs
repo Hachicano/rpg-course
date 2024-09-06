@@ -46,6 +46,15 @@ public class Skill_Crystal : Skill
 
     }
 
+    protected override void CheckUnlock()
+    {
+        UnlockCrystal();
+        UnlockCrystalBlink();
+        UnlockCrystalExplosion(); 
+        UnlockCrystalControlledDestruction();
+        UnlockMultipleCrystal();
+    }
+
     #region unlock skill region
     private void UnlockCrystal()
     {

@@ -45,6 +45,14 @@ public class Skill_Clone : Skill
         crystalMirageUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalMirage);
     }
 
+    protected override void CheckUnlock()
+    {
+        UnlockCrystalMirage();
+        UnlockAggresiveMirage();
+        UnlockCloneAttack();
+        UnlockMultipleMirage();
+    }
+
     #region Unlock region
 
     private void UnlockCloneAttack()

@@ -20,7 +20,6 @@ public class Skill_Blackhole : Skill
     public Skill_Blackhole_Controller currentBlackhole;
     public bool haveBlackhole;
 
-
     private void UnlockBlackhole()
     {
         blackholeUnlocked = blackholeUnlockButton.unlocked;
@@ -54,6 +53,11 @@ public class Skill_Blackhole : Skill
     protected override void Update()
     {
         base.Update();
+    }
+
+    protected override void CheckUnlock()
+    {
+        UnlockBlackhole();
     }
 
     public bool BlackholeSkillFinish()

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISaveManager
 {
     private UI ui;
     private Image skillImage; // Used for assgin skill icon, now can be hidden(remove [SerializeField]) cause it is not gonna being used.
@@ -35,6 +35,12 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         skillImage.color = lockedSkillColor;
         GetComponent<Button>().onClick.AddListener(() => UnlockSkillSlot()); // Skill_UI should be active on the beginning
                                                                              // Otherwise it wont work properly.
+    }
+
+    private void Start()
+    {
+        if (unlocked)
+            skillImage.color = Color.white;
     }
 
     public void UnlockSkillSlot()
@@ -92,5 +98,26 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData)
     {
         ui.skillToolTip.HideToolTip();
+    }
+
+    public void LoadData(GameData _data)
+    {
+        if (_data.skillTree.TryGetValue(skillName, out bool value))
+        {
+            unlocked = value;
+        }
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        if (_data.skillTree.TryGetValue(skillName, out bool value))
+        {
+            _data.skillTree.Remove(skillName);
+            _data.skillTree.Add(skillName, unlocked);
+        }
+        else
+        {
+            _data.skillTree.Add(skillName, unlocked);
+        }
     }
 }
