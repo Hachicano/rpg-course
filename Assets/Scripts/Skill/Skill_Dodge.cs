@@ -7,7 +7,8 @@ public class Skill_Dodge : Skill
 {
     [Header("Dodge")]
     [SerializeField] private int evasionAmountFromDodge;
-    private bool added;
+    [SerializeField] private bool added;
+    public bool reloadAdd;
     public UI_SkillTreeSlot dodgeUnlockButton;
     public bool dodgeUnlocked { get; private set; }
 
@@ -21,6 +22,20 @@ public class Skill_Dodge : Skill
 
         dodgeUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockDodge);
         dodgeMirageUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockDodgeMirage);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (reloadAdd)
+        {
+            player.stats.evasion.AddModifier(evasionAmountFromDodge);
+            Inventory.instance.UpdateStatsUI();
+            dodgeUnlocked = true;
+            added = true;
+            reloadAdd = false;
+            Debug.Log("reload doge");
+        }
     }
 
     protected override void CheckUnlock()

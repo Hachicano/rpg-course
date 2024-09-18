@@ -67,7 +67,6 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         if (item == null || item.data == null)
             return;
-        Debug.Log("Show Item Info");
         ui.itemToolTip.ShowTollTip(item.data as ItemData_Equipment);
     }
 
@@ -75,7 +74,6 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         if (item == null || item.data == null)
             return;
-        Debug.Log("Hide Item Info");
         ui.itemToolTip.HideToolTip();
     }
 

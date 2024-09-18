@@ -42,6 +42,10 @@ public class PlayerManager : MonoBehaviour, ISaveManager
     public void LoadData(GameData _data)
     {
         this.currency = _data.currency;
+        if (_data.skillTree.TryGetValue("Dodge", out bool value))
+        {
+            SkillManager.instance.dodge.reloadAdd = value;
+        }
     }
 
     public void SaveData(ref GameData _data)

@@ -20,6 +20,7 @@ public class PlayerPrimaryAttackState : PlayerState
         base.Enter();
         xInput = 0;
         comboCounter = comboCounter % 3;
+        AudioManager.instance.PlayerSFX(comboCounter, null); // null means this distance check wont work           sfx_attack1-3
         if (Time.time >= lastTimeAttack + comboWindow)
         {
             comboCounter = 0;

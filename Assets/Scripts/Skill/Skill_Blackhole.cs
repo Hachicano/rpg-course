@@ -41,6 +41,10 @@ public class Skill_Blackhole : Skill
         currentBlackhole.SetupBlackhole(blackholeDuration, maxSize, growSpeed, shrinkSpeed, AttackTimes, cloneAttackCooldown);
 
         haveBlackhole = true;
+
+        AudioManager.instance.PlayerSFX(6, null);
+        AudioManager.instance.PlayerSFX(3, null);
+
     }
 
     protected override void Start()

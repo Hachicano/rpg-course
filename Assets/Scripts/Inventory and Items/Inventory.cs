@@ -94,6 +94,7 @@ public class Inventory : MonoBehaviour, ISaveManager
             if (startingItems[i] != null)
                 AddItem(startingItems[i]);
         }
+        Debug.Log("default items");
     }
 
     // Already fix the problem of healthbar ui misbehavior when equipping items have maxHealth modifier
