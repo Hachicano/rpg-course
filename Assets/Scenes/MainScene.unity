@@ -44100,7 +44100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c761e530024b83429d5d35d7c433a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackDirection: {x: 7, y: 6}
+  knockbackPower: {x: 7, y: 6}
   knockbackDuration: 0.07
   attackCheck: {fileID: 210182897}
   attackCheckRadius: 0.8
@@ -44465,7 +44465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28120f0bc8cf5894284dd6c4cefbe349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackDirection: {x: 0, y: 0}
+  knockbackPower: {x: 0, y: 0}
   knockbackDuration: 0.07
   attackCheck: {fileID: 1315937540}
   attackCheckRadius: 0.8

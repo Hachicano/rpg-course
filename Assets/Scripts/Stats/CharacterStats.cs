@@ -133,6 +133,8 @@ public class CharacterStats : MonoBehaviour
         if (TargetCanAvoidAttack(_targetStats))
             return;
 
+        _targetStats.GetComponent<Entity>().SetupKnockbackDir(transform);
+
         float totalDamage = GetTotalPhisicalDamgeValue();
 
         if (canCrit(_targetStats))
@@ -362,7 +364,10 @@ public class CharacterStats : MonoBehaviour
     protected float CheckTargetArmor(CharacterStats _targetStats, float totalDamage)
     {
         float _iceResistance = _targetStats.iceDamage.GetValue() * .05f;
-        totalDamage -= _targetStats.armor.GetValue() + _iceResistance;
+        totalDamage -= _targetStats.armor.GetValue();
+        if (IgniteDamage != 0 && _targetStats.iceDamage.GetValue() != 0)
+            totalDamage -= _iceResistance;
+        totalDamage = Mathf.Round(totalDamage);
         totalDamage = Mathf.Clamp(totalDamage, 0f, float.MaxValue);
         return totalDamage;
     }

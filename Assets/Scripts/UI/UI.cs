@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class UI : MonoBehaviour , ISaveManager
@@ -27,7 +28,16 @@ public class UI : MonoBehaviour , ISaveManager
 
     private void Awake()
     {
-        SwitchTo(skillUI); // we need this to assgin event on skill tree slot before we assgin events on skill scripts.
+        // we need this to assgin event on skill tree slot before we assgin events on skill scripts.
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            bool fadeScreen = transform.GetChild(i).GetComponent<UI_FadeScreen>() != null;
+            if (!fadeScreen)
+                transform.GetChild(i).gameObject.SetActive(false);
+        }
+        if (skillUI != null)
+            skillUI.SetActive(true);
+
         fadeScreen.gameObject.SetActive(true);
     }
 
@@ -63,7 +73,7 @@ public class UI : MonoBehaviour , ISaveManager
 
         if (_menu != null)
         {
-            AudioManager.instance.PlayerSFX(7, null);  // sfx_click
+            AudioManager.instance.PlayerSFX(7, null);
             _menu.SetActive(true);
         }
     }

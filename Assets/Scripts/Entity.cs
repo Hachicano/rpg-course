@@ -14,8 +14,9 @@ public class Entity : MonoBehaviour
     #endregion
 
     [Header("Knockback Info")]
-    [SerializeField] protected Vector2 knockbackDirection;
+    [SerializeField] protected Vector2 knockbackPower;
     [SerializeField] protected float knockbackDuration = 0.07f;
+    public int knockbackDir {  get; private set; }
     protected bool isKnocked;
 
     [Header("Collision Info")]
@@ -71,11 +72,20 @@ public class Entity : MonoBehaviour
     protected virtual IEnumerator HitKnockback() { 
         isKnocked = true;
 
-        rb.velocity = new Vector2(knockbackDirection.x * PlayerManager.instance.player.primaryAttack.attackDir, knockbackDirection.y); // 不知道为啥效果正常但是逻辑是反的
+        rb.velocity = new Vector2(knockbackPower.x * knockbackDir, knockbackPower.y); // 不知道为啥效果正常但是逻辑是反的
 
         yield return new WaitForSeconds(knockbackDuration);
 
         isKnocked = false;
+    }
+
+    public virtual void SetupKnockbackDir(Transform _damageDirection)
+    {
+        if (_damageDirection.position.x > transform.position.x)
+            knockbackDir = -1;
+        else if (_damageDirection.position.x < transform.position.x)
+            knockbackDir = 1;
+        // else knockbackDir = -facingDir;
     }
 
     public virtual void Die()

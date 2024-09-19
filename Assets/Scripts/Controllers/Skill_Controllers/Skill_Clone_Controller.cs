@@ -69,6 +69,8 @@ public class Skill_Clone_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
+                hit.GetComponent<Entity>().SetupKnockbackDir(transform);
+
                 Player player = PlayerManager.instance.player;
                 // PlayerManager.instance.player.stats.DoDamage(hit.GetComponent<CharacterStats>());
                 PlayerStats playerStats = player.GetComponent<PlayerStats>();
