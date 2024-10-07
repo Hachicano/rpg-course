@@ -74,6 +74,6 @@ public class EnemyStats : CharacterStats
         int dropCurrency = Mathf.RoundToInt(soulsDropAmount.GetValue());
         PlayerManager.instance.currency += dropCurrency;
 
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, 5f);
     }
 }

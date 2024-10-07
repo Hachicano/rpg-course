@@ -69,14 +69,23 @@ public class Entity : MonoBehaviour
         Debug.Log(gameObject.name + " was damaged!");
     }
 
+    public void SetupKnockbackPower(Vector2 _knockbackpower) => knockbackPower = _knockbackpower;
+
     protected virtual IEnumerator HitKnockback() { 
         isKnocked = true;
 
-        rb.velocity = new Vector2(knockbackPower.x * knockbackDir, knockbackPower.y); // 不知道为啥效果正常但是逻辑是反的
+        rb.velocity = new Vector2(knockbackPower.x * knockbackDir, knockbackPower.y); // 不知道为啥效果正常但是逻辑是反的（？好像没反）
 
         yield return new WaitForSeconds(knockbackDuration);
 
         isKnocked = false;
+
+        SetupZeroKnockbackPower();
+    }
+
+    protected virtual void SetupZeroKnockbackPower()
+    {
+
     }
 
     public virtual void SetupKnockbackDir(Transform _damageDirection)

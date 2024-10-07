@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 public enum StatType
 {
@@ -65,6 +66,7 @@ public class CharacterStats : MonoBehaviour
 
     public float currentHealth;
     public System.Action onHealthChanged;
+    public bool isInvincible {  get; private set; }
     private bool isVulnerable;
     public bool isDead { get; private set; }
 
@@ -149,6 +151,9 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void TakeDamage(float _damage)
     {
+        if (isInvincible)
+            return;
+
         DecreaseHealthBy(_damage);
 
         GetComponent<Entity>().DamageImpact();
@@ -485,5 +490,12 @@ public class CharacterStats : MonoBehaviour
     {
         isDead = true;
     }
+
+    public void KillEntity()
+    {
+        if (!isDead)
+            Die();
+    }
+    public void MakeInvincible(bool _invincible) => isInvincible = _invincible;
 
 }

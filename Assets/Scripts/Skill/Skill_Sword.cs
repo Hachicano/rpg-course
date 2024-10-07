@@ -106,8 +106,6 @@ public class Skill_Sword : Skill
     public void UnlockSword()
     {
         swordUnlocked = swordUnlockButton.unlocked;
-        if (swordUnlocked)
-            swordType = SwordType.Regular;
     }
 
     public void UnlockBounceSword()
@@ -115,8 +113,6 @@ public class Skill_Sword : Skill
         bounceUnlocked = bounceUnlockButton.unlocked;
         if (bounceUnlocked)
             swordType  = SwordType.Bounce;
-        else
-            swordType = SwordType.Regular;
     }
 
     public void UnlockPierceSword()
@@ -124,8 +120,6 @@ public class Skill_Sword : Skill
         pierceUnlocked = pierceUnlockButton.unlocked;
         if (pierceUnlocked)
             swordType = SwordType.Pierce;
-        else
-            swordType = SwordType.Regular;
     }
 
     public void UnlockSpinSword()
@@ -133,8 +127,6 @@ public class Skill_Sword : Skill
         spinUnlocked = spinUnlockButton.unlocked;
         if (spinUnlocked)
             swordType = SwordType.Spin;
-        else
-            swordType = SwordType.Regular;
     }
 
     public void UnlockTimeStop()

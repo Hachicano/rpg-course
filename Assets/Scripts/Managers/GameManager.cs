@@ -136,4 +136,14 @@ public class GameManager : MonoBehaviour , ISaveManager
 
         return cloesetCheckpoint;
     }
+
+    public void PauseGame(bool _pause)
+    {
+        // if we set timeScale to 0, this will make "FadeScreen" in Hierarchy also be influnenced by pause. (Or DarkScreen?)
+        // The remedy is select "Update Mode" in the Animator Componet of "FadeScreen" to "Unscaled Time". 
+        if (_pause)
+            Time.timeScale = 0; 
+        else
+            Time.timeScale = 1;
+    }
 }
