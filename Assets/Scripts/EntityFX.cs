@@ -1,10 +1,24 @@
 using System.Collections;
-using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class EntityFX : MonoBehaviour
 {
     private SpriteRenderer sr;
+    private Player player;
+
+    [Header("Screen Shake FX")]
+    [SerializeField] private float shakeMultiplier;
+    public Vector3 shakeCatchSword;
+    public Vector3 shakeHighDamage;
+    private CinemachineImpulseSource screenShake;
+
+
+    [Header("After Image FX")]
+    [SerializeField] private GameObject[] afterImagePrefabs;
+    [SerializeField] private float colorLoseRate;
+    [SerializeField] private float afterImageCooldown;
+    private float afterImageCooldownTimer;
 
     [Header("Flash FX")]
     [SerializeField] private Material hitMat;
@@ -16,15 +30,52 @@ public class EntityFX : MonoBehaviour
     [SerializeField] private Color[] igniteColor;
     [SerializeField] private Color[] shockColor;
 
+    [Header("Ailment particles")]
+    [SerializeField] private ParticleSystem igniteFX;
+    [SerializeField] private ParticleSystem chillFX;
+    [SerializeField] private ParticleSystem shockFX;
+
+    [Header("Hit FX")]
+    [SerializeField] private GameObject hitFX_00;
+    [SerializeField] private GameObject hitFX_01;
+
+    [Space]
+    [SerializeField] private ParticleSystem dustFX;
+
     private void Awake()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
+        screenShake = GetComponent<CinemachineImpulseSource>();
     }
 
     private void Start()
     {
         originalMat = sr.material;
+        player = PlayerManager.instance.player;
     }
+
+    private void Update()
+    {
+        afterImageCooldownTimer -= Time.deltaTime;
+    }
+
+    public void ScreenShake(Vector3 _shakePower)
+    {
+        screenShake.m_DefaultVelocity = new Vector3(_shakePower.x * player.facingDir, _shakePower.y) * shakeMultiplier;
+        screenShake.GenerateImpulse();
+    }
+
+    public void CreateAfterImage()
+    {
+        if (afterImageCooldownTimer < 0 && afterImagePrefabs.Length > 0)
+        {
+            afterImageCooldownTimer = afterImageCooldown;
+            int i = Random.Range(0, afterImagePrefabs.Length);
+            GameObject newAfterImage = Instantiate(afterImagePrefabs[i], transform.position, transform.rotation);
+            newAfterImage.GetComponent<AfterImageFX>().SetupAfterImage(colorLoseRate, afterImagePrefabs[i].GetComponent<SpriteRenderer>().sprite);
+        }
+    }
+
     public virtual void MakeTransparent(bool _transparent)
     {
         if (_transparent)
@@ -59,29 +110,39 @@ public class EntityFX : MonoBehaviour
     {
         CancelInvoke();
         sr.color = Color.white;
-    }
 
-    public void ChillFxFor(float _seconds)
-    {
-        InvokeRepeating("ChillColorFx", 0, .5f); // .5f means nothing, two color is same;
-        //sr.color = chillColor[0];
-        Invoke("CancelColorChange", _seconds);
+        igniteFX.Stop();
+        chillFX.Stop();
+        shockFX.Stop();
     }
 
     public void IgniteFXFor(float _seconds)
     {
-        InvokeRepeating("IgniteColorFx", 0, .5f); // .5f is same as igniteDamgeCooldown
+        igniteFX.Play();
+
+        InvokeRepeating("IgniteColorFX", 0, .5f); // .5f is same as igniteDamgeCooldown
+        Invoke("CancelColorChange", _seconds);
+    }
+
+    public void ChillFxFor(float _seconds)
+    {
+        chillFX.Play();
+
+        InvokeRepeating("ChillColorFX", 0, .5f); // .5f means nothing, two color is same;
+        //sr.color = chillColor[0];
         Invoke("CancelColorChange", _seconds);
     }
 
     public void ShockFXFor(float _seconds)
     {
-        InvokeRepeating("ShockColorFx", 0, .3f); // Frequency of the blink is no realistic meaning, just for visual effect. 
+        shockFX.Play();
+
+        InvokeRepeating("ShockColorFX", 0, .3f); // Frequency of the blink is no realistic meaning, just for visual effect. 
         Invoke("CancelColorChange", _seconds);
     }
 
     
-    private void ChillColorFx()
+    private void ChillColorFX()
     {
         if (sr.color != chillColor[0])
             sr.color = chillColor[0];
@@ -89,7 +150,7 @@ public class EntityFX : MonoBehaviour
             sr.color = chillColor[1];
     }
     
-    private void IgniteColorFx()
+    private void IgniteColorFX()
     {
         if (sr.color != igniteColor[0])
             sr.color = igniteColor[0];
@@ -97,7 +158,7 @@ public class EntityFX : MonoBehaviour
             sr.color = igniteColor[1];
     }
 
-    private void ShockColorFx()
+    private void ShockColorFX()
     {
         if (sr.color != shockColor[0])
             sr.color = shockColor[0];
@@ -105,4 +166,41 @@ public class EntityFX : MonoBehaviour
             sr.color = shockColor[1];
     }
 
+    public void CreateHitFX(Transform _target, bool _isCritical)
+    {
+        float zRotation = Random.Range(-90, 90);
+        float xOffset = Random.Range(-.5f, .5f);
+        float yOffset = Random.Range(-.5f, .5f);
+
+        Vector3 hitFXRotation = new Vector3(0, 0, zRotation);
+
+        GameObject hitFXPrefab = hitFX_00;
+
+        if (_isCritical)
+        {
+            hitFXPrefab = hitFX_01;
+
+            float yRotation = 0;
+            zRotation = Random.Range(-20, 45);
+
+            if (GetComponent<Entity>().facingDir == -1)
+                yRotation = 180;
+
+            hitFXRotation = new Vector3(0, yRotation, zRotation);
+        }
+
+        GameObject newHitFX = Instantiate(hitFXPrefab, _target.position + new Vector3(xOffset, yOffset), Quaternion.identity);
+        //GameObject newHitFX = Instantiate(hitFXPrefab, _target.position + new Vector3(xOffset, yOffset), Quaternion.identity, _target); // critical hit fx will follow the target
+        newHitFX.transform.Rotate(hitFXRotation);
+
+        Destroy(newHitFX, .5f);
+    }
+
+    public void PlayDustFX()
+    {
+        if (dustFX != null)
+        {
+            dustFX.Play();
+        }
+    }
 }

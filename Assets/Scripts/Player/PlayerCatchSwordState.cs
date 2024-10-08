@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerCatchSwordState : PlayerState
 {
     private Transform sword;
@@ -14,6 +15,9 @@ public class PlayerCatchSwordState : PlayerState
         base.Enter();
 
         sword = player.sword.transform;
+
+        player.fx.PlayDustFX();
+        player.fx.ScreenShake(player.fx.shakeCatchSword);
 
         if (player.transform.position.x < sword.position.x && player.facingDir == -1)
         {

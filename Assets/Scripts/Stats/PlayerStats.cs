@@ -40,6 +40,7 @@ public class PlayerStats : CharacterStats
         if (_damage >= GetTotalMaxHealthValue() * .3f)
         {
             player.SetupKnockbackPower(new Vector2(7, 7));
+            player.fx.ScreenShake(player.fx.shakeHighDamage);
             AudioManager.instance.PlayerSFX(33, null);
             Debug.Log("player is heavily knockbacked");
         }
