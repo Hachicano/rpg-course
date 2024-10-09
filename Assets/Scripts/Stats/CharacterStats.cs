@@ -175,7 +175,10 @@ public class CharacterStats : MonoBehaviour
         if (isVulnerable)
             _damage = _damage * 1.5f;
         _damage = Mathf.Round(_damage);
-        Debug.Log(_damage);
+
+        if(_damage > 0)
+            fx.CreatePopUpText(_damage.ToString());
+
         currentHealth -= Mathf.Round(_damage);
 
         if (onHealthChanged != null)

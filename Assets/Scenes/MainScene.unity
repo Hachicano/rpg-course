@@ -49491,12 +49491,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff93775d5603a2246ae98b573910a343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakeMultiplier: 0
-  shakeCatchSword: {x: 0, y: 0, z: 0}
-  shakeHighDamage: {x: 0, y: 0, z: 0}
   afterImagePrefabs: []
   colorLoseRate: 0
   afterImageCooldown: 0
+  popUpTextPrefab: {fileID: 2329286442731340507, guid: adbcfed29a0a9a544a77db1a0e2614a7, type: 3}
+  shakeMultiplier: 0
+  shakeCatchSword: {x: 0, y: 0, z: 0}
+  shakeHighDamage: {x: 0, y: 0, z: 0}
   hitMat: {fileID: 2100000, guid: 0b412625a38dc3e42934500160266ef5, type: 2}
   flashDuration: 0.2
   chillColor:
@@ -49539,7 +49540,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: []
   phsicalDamage:
-    baseValue: 50
+    baseValue: 10
     modifiers: []
   critChance:
     baseValue: 0
@@ -49928,9 +49929,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff93775d5603a2246ae98b573910a343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakeMultiplier: 0.2
-  shakeCatchSword: {x: 0.5, y: 0, z: 0}
-  shakeHighDamage: {x: 2, y: 1, z: 0}
   afterImagePrefabs:
   - {fileID: 1710068997341662139, guid: d1522190099fb094d8e56c19a56a2e2f, type: 3}
   - {fileID: 3599339174588490644, guid: cad8d11007591fc47aaa2d79e2a91c14, type: 3}
@@ -49941,12 +49939,16 @@ MonoBehaviour:
   - {fileID: 3488783580255237310, guid: 81f226fe49745e14e9373537179039a5, type: 3}
   - {fileID: 8208321766235648285, guid: fbae637722e7c8e47b9aa952b422ffc7, type: 3}
   colorLoseRate: 2.5
-  afterImageCooldown: 0.045
+  afterImageCooldown: 0.039
+  popUpTextPrefab: {fileID: 2329286442731340507, guid: adbcfed29a0a9a544a77db1a0e2614a7, type: 3}
+  shakeMultiplier: 0.2
+  shakeCatchSword: {x: 0.5, y: 0, z: 0}
+  shakeHighDamage: {x: 2, y: 1, z: 0}
   hitMat: {fileID: 2100000, guid: 0b412625a38dc3e42934500160266ef5, type: 2}
   flashDuration: 0.2
   chillColor:
   - {r: 0.2627451, g: 0.63529414, b: 1, a: 1}
-  - {r: 0.2627451, g: 0.63529414, b: 1, a: 1}
+  - {r: 0.26274514, g: 0.52428323, b: 1, a: 1}
   igniteColor:
   - {r: 1, g: 0.61306393, b: 0.3754716, a: 1}
   - {r: 1, g: 0.8519186, b: 0.76037735, a: 1}
@@ -49987,7 +49989,7 @@ MonoBehaviour:
     baseValue: 10
     modifiers: []
   critChance:
-    baseValue: 0
+    baseValue: 20
     modifiers: []
   critPower:
     baseValue: 0
