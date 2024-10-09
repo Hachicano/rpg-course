@@ -1,6 +1,10 @@
 using System.Text;
-using UnityEditor;
 using UnityEngine;
+
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public enum ItemType
 {
@@ -23,7 +27,8 @@ public class ItemData : ScriptableObject
 
     private void OnValidate()
     {
-#if UNITY_EDITOR
+// This works on when you in Unity
+#if UNITY_EDITOR  
         string path = AssetDatabase.GetAssetPath(this);
         itemId = AssetDatabase.AssetPathToGUID(path);
 #endif

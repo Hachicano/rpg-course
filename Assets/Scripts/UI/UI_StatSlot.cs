@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static UnityEditor.Progress;
 
 public class UI_StatSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -20,7 +17,7 @@ public class UI_StatSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         gameObject.name = "Stat - " + statName;
 
-        if (statNameText != null )
+        if (statNameText != null)
             statNameText.text = statName;
     }
 

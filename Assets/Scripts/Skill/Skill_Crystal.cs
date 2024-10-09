@@ -11,6 +11,7 @@ public class Skill_Crystal : Skill
 
     [Header("Crystal")]
     [SerializeField] public UI_SkillTreeSlot crystalUnlockButton;
+    [SerializeField] private float crystalCooldown;
     public bool crystalUnlocked {  get; private set; }
 
     [Header("Crystal Blink")]
@@ -109,6 +110,7 @@ public class Skill_Crystal : Skill
                 Destroy(currentCrystal);
             }
             currentCrystal.GetComponent<Skill_Crystal_Controller>()?.FinishCrystal();
+            cooldown = crystalCooldown;
         }
     }
 

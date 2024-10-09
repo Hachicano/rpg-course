@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -71,7 +69,7 @@ public class Skill_Dodge : Skill
     {
         if (dodgeMirageUnlocked)
         {
-            SkillManager.instance.clone.CreateClone(player.transform, new Vector3(2 * player.facingDir, 0)); 
+            SkillManager.instance.clone.CreateClone(player.transform, new Vector3(2 * player.facingDir, 0));
         }
     }
 

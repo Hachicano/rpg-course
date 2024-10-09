@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -16,7 +15,7 @@ public class Entity : MonoBehaviour
     [Header("Knockback Info")]
     [SerializeField] protected Vector2 knockbackPower;
     [SerializeField] protected float knockbackDuration = 0.07f;
-    public int knockbackDir {  get; private set; }
+    public int knockbackDir { get; private set; }
     protected bool isKnocked;
 
     [Header("Collision Info")]
@@ -50,7 +49,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void Update()
     {
-        
+
     }
 
     public virtual void SlowEntity(float _slowPercentage, float _slowDuration)
@@ -71,7 +70,8 @@ public class Entity : MonoBehaviour
 
     public void SetupKnockbackPower(Vector2 _knockbackpower) => knockbackPower = _knockbackpower;
 
-    protected virtual IEnumerator HitKnockback() { 
+    protected virtual IEnumerator HitKnockback()
+    {
         isKnocked = true;
 
         rb.velocity = new Vector2(knockbackPower.x * knockbackDir, knockbackPower.y); // 不知道为啥效果正常但是逻辑是反的（？好像没反）

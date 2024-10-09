@@ -59,6 +59,8 @@ public class UI : MonoBehaviour , ISaveManager
             SwitchWithKeyTo(craftUI);
         if (Input.GetKeyDown(KeyCode.O))
             SwitchWithKeyTo(optionsUI);
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SwitchWithKeyTo(optionsUI);
     }
 
     public void SwitchTo(GameObject _menu)
