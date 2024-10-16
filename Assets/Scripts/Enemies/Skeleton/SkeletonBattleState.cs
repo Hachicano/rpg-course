@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonBattleState : EnemyState
@@ -21,7 +19,7 @@ public class SkeletonBattleState : EnemyState
         stateTimer = enemy.battleTime;
         player = PlayerManager.instance.player.transform;
 
-        if (player.GetComponent<PlayerStats>().isDead )
+        if (player.GetComponent<PlayerStats>().isDead)
         {
             stateMachine.changeState(enemy.moveState);
         }
@@ -34,7 +32,7 @@ public class SkeletonBattleState : EnemyState
 
         if (enemy.IsPlayerDetected())
         {
-            if (enemy.IsPlayerDetected().distance < enemy.attackDistance )
+            if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {
                 if (canAttack())
                 {
