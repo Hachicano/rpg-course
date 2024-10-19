@@ -23,6 +23,7 @@ public class Enemy : Entity
     private float defaultMoveSpeed;
 
     [Header("Attack Info")]
+    public float angerDistance = 2;
     public float attackDistance;
     public float attackCooldown;
     public float minAttackCooldown;  // you can choose fixed attackcooldown as well

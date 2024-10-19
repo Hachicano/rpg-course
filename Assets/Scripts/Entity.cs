@@ -14,6 +14,7 @@ public class Entity : MonoBehaviour
 
     [Header("Knockback Info")]
     [SerializeField] protected Vector2 knockbackPower;
+    [SerializeField] protected Vector2 knockbackOffset;
     [SerializeField] protected float knockbackDuration = 0.07f;
     public int knockbackDir { get; private set; }
     protected bool isKnocked;
@@ -74,7 +75,10 @@ public class Entity : MonoBehaviour
     {
         isKnocked = true;
 
-        rb.velocity = new Vector2(knockbackPower.x * knockbackDir, knockbackPower.y); // 不知道为啥效果正常但是逻辑是反的（？好像没反）
+        float xOffset = Random.Range(knockbackOffset.x, knockbackOffset.y);
+
+        if (knockbackPower.x > 0 || knockbackPower.y > 0)  // this makes player immune to freeze effect when she takes hit
+            rb.velocity = new Vector2((knockbackPower.x + xOffset) * knockbackDir, knockbackPower.y); // 不知道为啥效果正常但是逻辑是反的（？好像没反）
 
         yield return new WaitForSeconds(knockbackDuration);
 

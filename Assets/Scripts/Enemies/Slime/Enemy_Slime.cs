@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SlimeType { big, medium, small}
+
 public class Enemy_Slime : Enemy
 {
+    [Header("Slime Specific")]
+    [SerializeField] private SlimeType slimeType;
+    [SerializeField] private int slimesToCreate;
+    [SerializeField] private GameObject slimePrefab;
+    [SerializeField] private Vector2 minCreationVelocity;
+    [SerializeField] private Vector2 maxCreationVelocity;
+
     #region States
     public SlimeIdleState idleState {  get; private set; }
     public SlimeMoveState moveState { get; private set; }
@@ -47,5 +56,41 @@ public class Enemy_Slime : Enemy
     {
         base.Die();
         stateMachine.changeState(deadState);
+
+        if (slimeType == SlimeType.small)
+            return;
+
+        CreateSlimes(slimesToCreate, slimePrefab);
     }
+
+    private void CreateSlimes(int _amountOfSlimes, GameObject _slimePrefab)
+    {
+        for (int i = 0; i < _amountOfSlimes; i++)
+        {
+            GameObject newSlime = Instantiate(_slimePrefab, transform.position, Quaternion.identity);
+
+            newSlime.GetComponent<Enemy_Slime>().SetupSlime(facingDir);
+        }
+    }
+
+    public void SetupSlime(int _facingDir) // can inherit level from the parent as well
+    {
+        //if (_facingDir != facingDir)
+        //    Flip();
+
+        float xVelocity = Random.Range(minCreationVelocity.x, maxCreationVelocity.x);
+        float yVelocity = Random.Range(minCreationVelocity.y, maxCreationVelocity.y);
+
+        isKnocked = true;
+
+        int ejectDir = Random.Range(-1, 1);
+        if (ejectDir == 0)
+            ejectDir = _facingDir;
+
+        GetComponent<Rigidbody2D>().velocity = new Vector2(xVelocity * -ejectDir, yVelocity);
+
+        Invoke("CancelKnockback", 1.5f);
+    }
+
+    private void CancelKnockback() => isKnocked = false;
 }

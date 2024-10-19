@@ -6,7 +6,6 @@ public class SkeletonGroundedState : EnemyState
 {
     protected Enemy_Skeleton enemy;
     protected Transform player;
-    private float angerDistance = 2;
 
     public SkeletonGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
@@ -27,7 +26,7 @@ public class SkeletonGroundedState : EnemyState
     public override void Update()
     {
         base.Update();
-        if (enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position, player.position) < angerDistance)
+        if (enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position, player.position) < enemy.angerDistance)
         {
             stateMachine.changeState(enemy.battleState);
             return;

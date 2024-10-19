@@ -529,7 +529,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6098077261683776480}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.431089, y: -2.501936, z: 0.15303524}
   m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
   m_ConstrainProportionsScale: 0
@@ -558,6 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackPower: {x: 5, y: 6}
+  knockbackOffset: {x: 0.5, y: 2}
   knockbackDuration: 0.07
   attackCheck: {fileID: 1101370279669078367}
   attackCheckRadius: 1.2
@@ -577,6 +578,7 @@ MonoBehaviour:
   moveSpeed: 2
   idleTime: 1.5
   battleTime: 6
+  angerDistance: 2
   attackDistance: 2
   attackCooldown: 0.4
   minAttackCooldown: 0.35
