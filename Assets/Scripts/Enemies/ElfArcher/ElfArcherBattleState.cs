@@ -1,14 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonBattleState : EnemyState
+public class ElfArcherBattleState : EnemyState
 {
-    private Enemy_Skeleton enemy;
+    protected Enemy_ElfArcher enemy;
     private Transform player;
     private int moveDir;
 
     private float giveupDistance = 7;
 
-    public SkeletonBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public ElfArcherBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_ElfArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }

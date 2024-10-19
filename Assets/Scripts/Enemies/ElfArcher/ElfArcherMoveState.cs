@@ -1,6 +1,10 @@
-public class SkeletonMoveState : SkeletonGroundedState
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ElfArcherMoveState : ElfArcherGroundedState
 {
-    public SkeletonMoveState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton enemy) : base(_enemyBase, _stateMachine, _animBoolName, enemy)
+    public ElfArcherMoveState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_ElfArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName, _enemy)
     {
     }
 

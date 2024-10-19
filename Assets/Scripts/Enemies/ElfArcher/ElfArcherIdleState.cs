@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ElfArcherIdleState : ElfArcherGroundedState
+{
+    public ElfArcherIdleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_ElfArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName, _enemy)
+    {
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        stateTimer = enemy.idleTime;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        AudioManager.instance.PlayerSFX(23, enemy.transform);  // sfx_skeleton_bones
+    }
+
+    public override void Update()
+    {
+        base.Update();
+        if (stateTimer < 0f)
+        {
+            stateMachine.changeState(enemy.moveState);
+            return;
+        }
+    }
+}
