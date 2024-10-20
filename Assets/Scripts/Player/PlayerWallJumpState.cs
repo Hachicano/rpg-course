@@ -33,7 +33,7 @@ public class PlayerWallJumpState : PlayerState
             return;
         }
 
-        if (player.IsGoundDetected())
+        if (player.IsGroundDetected())
         {
             stateMachine.changeState(player.idleState);
             return;

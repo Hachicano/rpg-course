@@ -32,7 +32,7 @@ public class PlayerCounterAttackState : PlayerState
         {
             if (hit.GetComponent<ArrowController>() != null)
             {
-                hit.GetComponent<ArrowController>().FlipArrow();
+                hit.GetComponent<ArrowController>().CounterArrow();
                 SuccessfulCounterAttack();
                 player.skill.parry.UseSkill();  // gonna use skill to restore health on parry
             }

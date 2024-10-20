@@ -50,7 +50,7 @@ public class PlayerWallSlideState : PlayerState
             player.setVelocity(0, rb.velocity.y * wallSlideVelocityFactor);
         }
 
-        if (player.IsGoundDetected())
+        if (player.IsGroundDetected())
         {
             stateMachine.changeState(player.idleState);
             return;

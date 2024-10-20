@@ -29,7 +29,7 @@ public class PlayerAirborneState : PlayerState
             stateMachine.changeState(player.wallSlideState);
             return;
         }
-        if (player.IsGoundDetected())
+        if (player.IsGroundDetected())
         {
             stateMachine.changeState(player.idleState);
             return;

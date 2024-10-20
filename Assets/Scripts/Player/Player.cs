@@ -142,7 +142,7 @@ public class Player : Entity
 
     private void checkForDashInput()
     {
-        if (IsWallDetected() && !IsGoundDetected())
+        if (IsWallDetected() && !IsGroundDetected())
         {
             return;
         }

@@ -26,7 +26,7 @@ public class SlimeMoveState : SlimeGroundedState
 
         enemy.setVelocity(enemy.facingDir * enemy.moveSpeed, rb.velocity.y);
 
-        if (enemy.IsWallDetected() || !enemy.IsGoundDetected())
+        if (enemy.IsWallDetected() || !enemy.IsGroundDetected())
         {
             enemy.Flip();
             stateMachine.changeState(enemy.idleState);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArrowController : MonoBehaviour
 {
-    [SerializeField] private int damage;
+    [SerializeField] private CharacterStats shooterStat;
     [SerializeField] private string targetLayerName = "Player";
 
     [SerializeField] private float xVelocity;
@@ -12,6 +12,7 @@ public class ArrowController : MonoBehaviour
 
     [SerializeField] private bool canMove = true;
     [SerializeField] private bool flipped;
+
 
     private void Awake()
     {
@@ -24,11 +25,19 @@ public class ArrowController : MonoBehaviour
             rb.velocity = new Vector2(xVelocity, rb.velocity.y);
     }
 
+    public void SetUpArrow(CharacterStats _shooter, float _speed)
+    {
+        shooterStat = _shooter;
+        xVelocity = _speed;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer(targetLayerName))
         {
-            collision.GetComponent<CharacterStats>()?.TakeDamage(damage); // maybe we should import archer's stat and use function "DoDamage"
+            // collision.GetComponent<CharacterStats>()?.TakeDamage(damage); // maybe we should import archer's stat and use function "DoDamage"
+            if (collision.GetComponent<CharacterStats>() != null)
+                shooterStat.DoDamage(collision.GetComponent<CharacterStats>());
             StuckInto(collision);
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
@@ -47,7 +56,7 @@ public class ArrowController : MonoBehaviour
         Destroy(gameObject, Random.Range(5, 7));
     }
 
-    public void FlipArrow()
+    public void CounterArrow()
     {
         if (flipped)
             return;

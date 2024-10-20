@@ -48,13 +48,13 @@ public class PlayerGroundedState : PlayerState
             return;
         }
 
-        if (!player.IsGoundDetected()) 
+        if (!player.IsGroundDetected()) 
         {
             stateMachine.changeState(player.airborneState);
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && player.IsGoundDetected()) {
+        if (Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected()) {
             stateMachine.changeState(player.jumpState);
             return;
         }

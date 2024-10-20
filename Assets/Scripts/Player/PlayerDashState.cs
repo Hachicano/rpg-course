@@ -29,7 +29,7 @@ public class PlayerDashState : PlayerState
     {
         base.Update();
         player.fx.CreateAfterImage();
-        if (!player.IsGoundDetected() && player.IsWallDetected())
+        if (!player.IsGroundDetected() && player.IsWallDetected())
         {
             stateMachine.changeState(player.wallSlideState);
             return;

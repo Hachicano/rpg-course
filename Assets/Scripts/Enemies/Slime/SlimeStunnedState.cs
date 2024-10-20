@@ -32,7 +32,7 @@ public class SlimeStunnedState : EnemyState
     {
         base.Update();
 
-        if (rb.velocity.y < .1f & enemy.IsGoundDetected())
+        if (rb.velocity.y < .1f & enemy.IsGroundDetected())
         {
             enemy.fx.Invoke("CancelColorChange", 0);
             enemy.anim.SetTrigger("StunFold");

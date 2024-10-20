@@ -13,19 +13,19 @@ public class Entity : MonoBehaviour
     #endregion
 
     [Header("Knockback Info")]
-    [SerializeField] protected Vector2 knockbackPower;
-    [SerializeField] protected Vector2 knockbackOffset;
+    [SerializeField] protected Vector2 knockbackPower = new Vector2(7, 12);
+    [SerializeField] protected Vector2 knockbackOffset = new Vector2(.5f, 2);
     [SerializeField] protected float knockbackDuration = 0.07f;
     public int knockbackDir { get; private set; }
     protected bool isKnocked;
 
     [Header("Collision Info")]
     public Transform attackCheck;
-    public float attackCheckRadius;
+    public float attackCheckRadius = 1.2f;
     [SerializeField] protected Transform groundCheck;
-    [SerializeField] protected float groundCheckDistance;
+    [SerializeField] protected float groundCheckDistance = 1;
     [SerializeField] protected Transform wallCheck;
-    [SerializeField] protected float wallCheckDistance;
+    [SerializeField] protected float wallCheckDistance = .8f;
     [SerializeField] protected LayerMask whatIsGround;
 
     public int facingDir { get; private set; } = 1;
@@ -108,7 +108,7 @@ public class Entity : MonoBehaviour
 
     #region Collision
 
-    public virtual bool IsGoundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+    public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
 
 

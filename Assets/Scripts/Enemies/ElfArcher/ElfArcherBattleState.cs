@@ -34,6 +34,15 @@ public class ElfArcherBattleState : EnemyState
 
         if (enemy.IsPlayerDetected())
         {
+            if (enemy.IsPlayerDetected().distance <= enemy.safeDistance)
+            {
+                if (canJump())
+                {
+                    stateMachine.changeState(enemy.jumpState);
+                    return;
+                }
+            }
+
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {
                 if (canAttack())
@@ -52,20 +61,17 @@ public class ElfArcherBattleState : EnemyState
             }
         }
 
-        if (player.position.x > enemy.transform.position.x)
-        {
-            moveDir = 1;
-        }
-        else if (player.position.x < enemy.transform.position.x)
-        {
-            moveDir = -1;
-        }
-
-        if (enemy.IsPlayerDetected() && enemy.IsPlayerDetected().distance < enemy.attackDistance - .1f)
-            return;
-
-        enemy.setVelocity(enemy.moveSpeed * moveDir, rb.velocity.y);
+        BattleStateFlipControll();
     }
+
+    private void BattleStateFlipControll()
+    {
+        if (player.position.x > enemy.transform.position.x && enemy.facingDir == -1)
+            enemy.Flip();
+        else if (player.position.x < enemy.transform.position.x && enemy.facingDir == 1)
+            enemy.Flip();
+    }
+
     public override void Exit()
     {
         base.Exit();
@@ -76,6 +82,20 @@ public class ElfArcherBattleState : EnemyState
         if (Time.time >= enemy.lastTimeAttacked + enemy.attackCooldown)
         {
             enemy.attackCooldown = Random.Range(enemy.minAttackCooldown, enemy.maxAttackCooldown);
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool canJump()
+    {
+        if (enemy.GroundBehind() == false || enemy.WallBehind() == true)
+            return false;
+
+        if (Time.time >= enemy.lastTimeJumped + enemy.jumpCooldown)
+        {
+            enemy.lastTimeJumped = Time.time;
             return true;
         }
 
