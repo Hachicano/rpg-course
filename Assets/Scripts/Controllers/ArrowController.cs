@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArrowController : MonoBehaviour
 {
-    [SerializeField] private CharacterStats shooterStat;
+    [SerializeField] private CharacterStats founderStat;
     [SerializeField] private string targetLayerName = "Player";
 
     [SerializeField] private float xVelocity;
@@ -27,7 +27,7 @@ public class ArrowController : MonoBehaviour
 
     public void SetUpArrow(CharacterStats _shooter, float _speed)
     {
-        shooterStat = _shooter;
+        founderStat = _shooter;
         xVelocity = _speed;
     }
 
@@ -37,7 +37,7 @@ public class ArrowController : MonoBehaviour
         {
             // collision.GetComponent<CharacterStats>()?.TakeDamage(damage); // maybe we should import archer's stat and use function "DoDamage"
             if (collision.GetComponent<CharacterStats>() != null)
-                shooterStat.DoDamage(collision.GetComponent<CharacterStats>());
+                founderStat.DoDamage(collision.GetComponent<CharacterStats>());
             StuckInto(collision);
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))

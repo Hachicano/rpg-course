@@ -17,10 +17,10 @@ public class Enemy : Entity
     protected bool canBeStunned;
 
     [Header("Move Info")]
-    public float moveSpeed = 1.5f;
-    public float idleTime = 2;
+    public float moveSpeed = 5f;
+    public float idleTime = .7f;
     public float battleTime = 7;
-    private float defaultMoveSpeed;
+    public float defaultMoveSpeed;
 
     [Header("Attack Info")]
     public float angerDistance = 2;
