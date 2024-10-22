@@ -7,6 +7,7 @@ public class EntityFX : MonoBehaviour
 {
     protected SpriteRenderer sr;
     protected Player player;
+    private GameObject myHealthBar;
 
     [Header("After Image FX")]
     [SerializeField] private GameObject[] afterImagePrefabs;
@@ -48,6 +49,7 @@ public class EntityFX : MonoBehaviour
     {
         sr = GetComponentInChildren<SpriteRenderer>();
         screenShake = GetComponent<CinemachineImpulseSource>();
+        myHealthBar = GetComponentInChildren<UI_HealthBar>().gameObject;
     }
 
     protected virtual void Start()
@@ -92,9 +94,15 @@ public class EntityFX : MonoBehaviour
     public virtual void MakeTransparent(bool _transparent)
     {
         if (_transparent)
+        {
             sr.color = Color.clear;
+            myHealthBar.SetActive(false);
+        }
         else
+        {
             sr.color = Color.white;
+            myHealthBar.SetActive(true);
+        }
     }
 
     public IEnumerator FlashFX()
