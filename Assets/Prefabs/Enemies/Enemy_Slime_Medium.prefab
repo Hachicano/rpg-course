@@ -792,7 +792,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: []
   maxHealth:
-    baseValue: 75
+    baseValue: 200
     modifiers: []
   armor:
     baseValue: 0
@@ -906,6 +906,7 @@ MonoBehaviour:
   moveSpeed: 2
   idleTime: 2
   battleTime: 5
+  defaultMoveSpeed: 0
   angerDistance: 2
   attackDistance: 1.5
   attackCooldown: 0.7

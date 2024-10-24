@@ -323,6 +323,7 @@ MonoBehaviour:
   moveSpeed: 3.5
   idleTime: 2
   battleTime: 5
+  defaultMoveSpeed: 0
   angerDistance: 2
   attackDistance: 1.5
   attackCooldown: 0.7

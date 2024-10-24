@@ -42,7 +42,7 @@ public class Skill_Blackhole : Skill
 
         haveBlackhole = true;
 
-        AudioManager.instance.PlayerSFX(6, null);
+        //AudioManager.instance.PlayerSFX(6, null);
         AudioManager.instance.PlayerSFX(3, null);
 
     }
