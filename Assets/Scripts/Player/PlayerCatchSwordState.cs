@@ -10,6 +10,12 @@ public class PlayerCatchSwordState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.idleState, () => triggerCalled));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -41,9 +47,11 @@ public class PlayerCatchSwordState : PlayerState
     {
         base.Update();
 
+        /*
         if (triggerCalled)
         {
             stateMachine.changeState(player.idleState);
         }
+        */
     }
 }

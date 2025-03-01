@@ -8,6 +8,12 @@ public class PlayerJumpState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.airborneState, () => rb.velocity.y < 0));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -23,10 +29,12 @@ public class PlayerJumpState : PlayerState
     {
         base.Update();
         player.setVelocity(xInput * player.moveSpeed, rb.velocity.y);
+        /*
         if (rb.velocity.y < 0)
         {
             stateMachine.changeState(player.airborneState);
             return;
         }
+        */
     }
 }

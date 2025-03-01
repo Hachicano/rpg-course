@@ -51,6 +51,11 @@ public class Player : Entity
         base.Awake();
         stateMachine = new PlayerStateMachine();
 
+        InitializeStates();
+        InitializeTransitions();
+    }
+    private void InitializeStates()
+    {
         idleState = new PlayerIdleState(this, stateMachine, "Idle");
         moveState = new PlayerMoveState(this, stateMachine, "Move");
         jumpState = new PlayerJumpState(this, stateMachine, "Jump");
@@ -68,6 +73,24 @@ public class Player : Entity
 
         deadState = new PlayerDeadState(this, stateMachine, "Die");
     }
+
+    private void InitializeTransitions()
+    {
+        idleState.SetupTransitions();
+        moveState.SetupTransitions();
+        jumpState.SetupTransitions();
+        airborneState.SetupTransitions();
+        dashState.SetupTransitions();
+        wallSlideState.SetupTransitions();
+        wallJumpState.SetupTransitions();
+        primaryAttack.SetupTransitions();
+        counterAttack.SetupTransitions();
+        aimSword.SetupTransitions();
+        catchSword.SetupTransitions();
+        blackholeState.SetupTransitions();
+        deadState.SetupTransitions();
+    }
+
 
     protected override void Start()
     {

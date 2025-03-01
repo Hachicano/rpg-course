@@ -13,6 +13,15 @@ public class PlayerBlackholeState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.airborneState, () => player.skill.blackhole.BlackholeSkillFinish(), () =>
+        {
+            skillFinished = true;
+        }));
+    }
+
     public override void AnimationFinishTrigger()
     {
         base.AnimationFinishTrigger();
@@ -52,13 +61,13 @@ public class PlayerBlackholeState : PlayerState
                     skilUsed = true;
             }
         }
-        
+        /*
         if (player.skill.blackhole.BlackholeSkillFinish())
         {
             skillFinished = true;
             stateMachine.changeState(player.airborneState);
             return;
         }
-
+        */
     }
 }

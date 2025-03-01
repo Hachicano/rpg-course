@@ -8,6 +8,12 @@ public class PlayerIdleState : PlayerGroundedState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.moveState, () => xInput != 0 && !player.isBusy));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -18,11 +24,13 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Update();
 
+        /*
         if (xInput != 0 && !player.isBusy)
         {
             stateMachine.changeState(player.moveState);
             return;
         }
+        */
     }
 
     public override void Exit()

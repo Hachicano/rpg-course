@@ -8,6 +8,12 @@ public class PlayerMoveState : PlayerGroundedState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.idleState, () => xInput == 0));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -28,12 +34,13 @@ public class PlayerMoveState : PlayerGroundedState
         {
             player.setVelocity(xInput * player.moveSpeed, rb.velocity.y);
         }
-
+        /*
         if (xInput == 0)
         {
             stateMachine.changeState(player.idleState);
             return;
         }
+        */
     }
 
     public override void Exit()

@@ -8,6 +8,11 @@ public class PlayerDeadState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+    }
+
     public override void AnimationFinishTrigger()
     {
         base.AnimationFinishTrigger();

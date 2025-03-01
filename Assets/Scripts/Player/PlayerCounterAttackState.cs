@@ -8,6 +8,12 @@ public class PlayerCounterAttackState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.idleState, () => stateTimer < 0 || triggerCalled));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -54,11 +60,13 @@ public class PlayerCounterAttackState : PlayerState
             }
         }
 
+        /*
         if (stateTimer < 0 || triggerCalled)
         {
             stateMachine.changeState(player.idleState);
             return;
         }
+        */
     }
 
     private void SuccessfulCounterAttack()

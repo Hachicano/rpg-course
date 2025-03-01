@@ -15,6 +15,12 @@ public class PlayerPrimaryAttackState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.idleState, () => triggerCalled));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -61,11 +67,11 @@ public class PlayerPrimaryAttackState : PlayerState
         {
             player.setZeroVelocity();
         }
-
+        /*
         if (triggerCalled)
         {
             stateMachine.changeState(player.idleState);
             return;
-        }
+        }*/
     }
 }

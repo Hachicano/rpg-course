@@ -10,6 +10,13 @@ public class PlayerWallJumpState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.airborneState, () => stateTimer < 0));
+        this.transitions.Add(new Transition(player.idleState, () => player.IsGroundDetected()));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -26,7 +33,7 @@ public class PlayerWallJumpState : PlayerState
     public override void Update()
     {
         base.Update();
-
+        /*
         if (stateTimer < 0)
         {
             stateMachine.changeState(player.airborneState);
@@ -37,6 +44,6 @@ public class PlayerWallJumpState : PlayerState
         {
             stateMachine.changeState(player.idleState);
             return;
-        }
+        }*/
     }
 }

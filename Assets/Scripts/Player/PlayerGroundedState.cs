@@ -8,6 +8,17 @@ public class PlayerGroundedState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.blackholeState, () => Input.GetKeyDown(KeyCode.T) && player.skill.blackhole.blackholeUnlocked && player.skill.blackhole.GetCooldownTimer() <= 0));
+        this.transitions.Add(new Transition(player.aimSword, () => Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword() && player.skill.sword.swordUnlocked));
+        this.transitions.Add(new Transition(player.counterAttack, () => Input.GetKeyDown(KeyCode.F) && player.skill.parry.parryUnlocked && player.skill.parry.CanUseSkill()));
+        this.transitions.Add(new Transition(player.primaryAttack, () => Input.GetKeyDown(KeyCode.Mouse0)));
+        this.transitions.Add(new Transition(player.airborneState, () => !player.IsGroundDetected()));
+        this.transitions.Add(new Transition(player.jumpState, () => Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected()));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -21,15 +32,15 @@ public class PlayerGroundedState : PlayerState
     public override void Update()
     {
         base.Update();
-
+        if (Input.GetKeyDown(KeyCode.T) && player.skill.blackhole.blackholeUnlocked && player.skill.blackhole.GetCooldownTimer() > 0)
+            player.fx.CreatePopUpText("Blackhole is on cooldown");
+        /*
         if (Input.GetKeyDown(KeyCode.T) && player.skill.blackhole.blackholeUnlocked && player.skill.blackhole.GetCooldownTimer() <= 0)
         {
             stateMachine.changeState(player.blackholeState);
             return;
         }
-        else if(Input.GetKeyDown(KeyCode.T) && player.skill.blackhole.blackholeUnlocked && player.skill.blackhole.GetCooldownTimer() > 0)
-            player.fx.CreatePopUpText("Blackhole is on cooldown");
-
+ 
         if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword() && player.skill.sword.swordUnlocked)
         {
             stateMachine.changeState(player.aimSword);
@@ -58,6 +69,7 @@ public class PlayerGroundedState : PlayerState
             stateMachine.changeState(player.jumpState);
             return;
         }
+        */
     }
 
     private bool HasNoSword()

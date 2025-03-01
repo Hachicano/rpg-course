@@ -8,6 +8,12 @@ public class PlayerDashState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.idleState, () => stateTimer < 0));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -37,22 +43,13 @@ public class PlayerDashState : PlayerState
 
         player.setVelocity(player.dashSpeed * player.dashDir, 0);
 
+        /*
         if (stateTimer < 0)
         {
             stateMachine.changeState(player.idleState);
             return;
-            /*
-            if (stateMachine.oldState == player.jumpState)
-            {
-                stateMachine.changeState(player.airborneState);
-                return;
-            }
-            else
-            {
-                stateMachine.changeState(stateMachine.oldState);
-                return;
-            }
-            */
         }
+        */
+
     }
 }

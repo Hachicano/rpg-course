@@ -8,6 +8,12 @@ public class PlayerAimSwordState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.idleState, () => Input.GetKeyUp(KeyCode.Mouse1)));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -24,11 +30,13 @@ public class PlayerAimSwordState : PlayerState
     {
         base.Update();
         player.setZeroVelocity();
+        /*
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             stateMachine.changeState(player.idleState);
             return;
         }
+        */
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

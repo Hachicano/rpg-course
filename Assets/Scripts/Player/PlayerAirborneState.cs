@@ -8,6 +8,13 @@ public class PlayerAirborneState : PlayerState
     {
     }
 
+    public override void SetupTransitions()
+    {
+        base.SetupTransitions();
+        this.transitions.Add(new Transition(player.wallSlideState, () => player.IsWallDetected()));
+        this.transitions.Add(new Transition(player.idleState, () => player.IsGroundDetected()));
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -24,6 +31,7 @@ public class PlayerAirborneState : PlayerState
 
         player.setVelocity(xInput * player.moveSpeed, rb.velocity.y);
 
+        /*
         if (player.IsWallDetected())
         {
             stateMachine.changeState(player.wallSlideState);
@@ -34,6 +42,7 @@ public class PlayerAirborneState : PlayerState
             stateMachine.changeState(player.idleState);
             return;
         }
+        */
 
         if (xInput != 0)
         {
