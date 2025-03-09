@@ -139,7 +139,7 @@ public class Skill_Sword_Controller : MonoBehaviour
     {
         pierceAmount = _pierceAmount;
     }
-    public void SetupSpine(bool _isSpinning, float _maxTravelDistance, float _spinDuration, float _hitCooldown)
+    public void SetupSpin(bool _isSpinning, float _maxTravelDistance, float _spinDuration, float _hitCooldown)
     {
         isSpinning = _isSpinning;
         maxTravelDistance = _maxTravelDistance;

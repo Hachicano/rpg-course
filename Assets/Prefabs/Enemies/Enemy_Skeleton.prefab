@@ -508,12 +508,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2437154362597619210}
-  - component: {fileID: 4385059366396023650}
   - component: {fileID: 610329470685702280}
   - component: {fileID: 7709753559060238845}
   - component: {fileID: 6611050811712888952}
   - component: {fileID: 2752963711928523243}
   - component: {fileID: 2543100261323664263}
+  - component: {fileID: 4385059366396023650}
   m_Layer: 7
   m_Name: Enemy_Skeleton
   m_TagString: Untagged
@@ -545,46 +545,6 @@ Transform:
   - {fileID: 620597957637299417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4385059366396023650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6098077261683776480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c761e530024b83429d5d35d7c433a39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockbackPower: {x: 5, y: 6}
-  knockbackOffset: {x: 0.5, y: 2}
-  knockbackDuration: 0.07
-  attackCheck: {fileID: 1101370279669078367}
-  attackCheckRadius: 1.2
-  groundCheck: {fileID: 8041300071911930686}
-  groundCheckDistance: 1
-  wallCheck: {fileID: 8172677902573207960}
-  wallCheckDistance: 0.8
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 8
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 64
-  counterImage: {fileID: 4597872600839921090}
-  stunDuration: 0.5
-  stunDirection: {x: 3, y: 8}
-  moveSpeed: 2
-  idleTime: 1.5
-  battleTime: 6
-  defaultMoveSpeed: 0
-  angerDistance: 2
-  attackDistance: 2
-  attackCooldown: 0.4
-  minAttackCooldown: 0.35
-  maxAttackCooldown: 0.55
-  lastTimeAttacked: 0
 --- !u!50 &610329470685702280
 Rigidbody2D:
   serializedVersion: 4
@@ -728,7 +688,7 @@ MonoBehaviour:
   magicResistance:
     baseValue: 0
     modifiers: []
-  fireDamge:
+  fireDamage:
     baseValue: 0
     modifiers: []
   iceDamage:
@@ -742,9 +702,13 @@ MonoBehaviour:
   isShocked: 0
   shockStrikePrefab: {fileID: 5569745078250540653, guid: 2df1eed0f323ec649bd038f0dc98aae1, type: 3}
   currentHealth: 0
+  isInvincible: 0
+  isVulnerable: 0
+  isDead: 0
   soulsDropAmount:
     baseValue: 0
     modifiers: []
+  souls: 100
   level: 1
   percentageModifier: 0
 --- !u!114 &2543100261323664263
@@ -764,6 +728,47 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 67d31e957960d2447b59045c0809d570, type: 2}
   - {fileID: 11400000, guid: 11d0d4c890206bf4d89aed97e5038ab0, type: 2}
   dropPrefab: {fileID: 3774323107750568187, guid: 67135abaae68bb24b9911ecb09871044, type: 3}
+--- !u!114 &4385059366396023650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6098077261683776480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c761e530024b83429d5d35d7c433a39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackPower: {x: 5, y: 6}
+  knockbackOffset: {x: 0.5, y: 2}
+  knockbackDuration: 0.07
+  attackCheck: {fileID: 1101370279669078367}
+  attackCheckRadius: 1.2
+  groundCheck: {fileID: 8041300071911930686}
+  groundCheckDistance: 1
+  wallCheck: {fileID: 8172677902573207960}
+  wallCheckDistance: 0.8
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  EnemySelfPrefab: {fileID: 6098077261683776480}
+  counterImage: {fileID: 4597872600839921090}
+  stunDuration: 0.5
+  stunDirection: {x: 3, y: 8}
+  moveSpeed: 2
+  idleTime: 1.5
+  battleTime: 6
+  defaultMoveSpeed: 0
+  angerDistance: 2
+  attackDistance: 2
+  attackCooldown: 0.4
+  minAttackCooldown: 0.35
+  maxAttackCooldown: 0.55
+  lastTimeAttacked: 0
 --- !u!1 &6982756687134325033
 GameObject:
   m_ObjectHideFlags: 0

@@ -64,14 +64,14 @@ public class PlayerState
                 {
                     // 如果有额外操作，执行它
                     transition.onTransition?.Invoke();
-                    Debug.Log($"尝试从 {animBoolName} 状态切换到 {transition.targetState.animBoolName} 状态");
+                    //Debug.Log($"尝试从 {animBoolName} 状态切换到 {transition.targetState.animBoolName} 状态");
                     stateMachine.changeState(transition.targetState);
                     break;
                 }
             }
             catch (Exception ex)
             {
-                Debug.Log($"[Error]在从 {animBoolName} 状态切换到 {transition.targetState.animBoolName} 状态时出错: {ex.Message}");
+                //Debug.Log($"[Error]在从 {animBoolName} 状态切换到 {transition.targetState.animBoolName} 状态时出错: {ex.Message}");
             }
         }
     }

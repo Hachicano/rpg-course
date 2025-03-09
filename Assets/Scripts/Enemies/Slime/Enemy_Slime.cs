@@ -8,8 +8,8 @@ public class Enemy_Slime : Enemy
 {
     [Header("Slime Specific")]
     [SerializeField] private SlimeType slimeType;
-    [SerializeField] private int slimesToCreate;
-    [SerializeField] private GameObject slimePrefab;
+    [SerializeField] private int slimesToCreateValue;
+    [SerializeField] private GameObject slimeToCreatePrefab;
     [SerializeField] private Vector2 minCreationVelocity;
     [SerializeField] private Vector2 maxCreationVelocity;
 
@@ -34,6 +34,7 @@ public class Enemy_Slime : Enemy
         attackState = new SlimeAttackState(this, stateMachine, "Attack", this);
         stunnedState = new SlimeStunnedState(this, stateMachine, "Stunned", this);
         deadState = new SlimeDeadState(this, stateMachine, "Idle", this);
+        defaultState = idleState;
     }
 
     protected override void Start()
@@ -60,15 +61,15 @@ public class Enemy_Slime : Enemy
         if (slimeType == SlimeType.small)
             return;
 
-        CreateSlimes(slimesToCreate, slimePrefab);
+        CreateSlimes(slimesToCreateValue, slimeToCreatePrefab);
     }
 
     private void CreateSlimes(int _amountOfSlimes, GameObject _slimePrefab)
     {
         for (int i = 0; i < _amountOfSlimes; i++)
         {
-            GameObject newSlime = Instantiate(_slimePrefab, transform.position, Quaternion.identity);
-
+            //GameObject newSlime = Instantiate(_slimePrefab, transform.position, Quaternion.identity);
+            GameObject newSlime = ObjectPoolManager.instance.getPooledObject(_slimePrefab, transform.position, Quaternion.identity);
             newSlime.GetComponent<Enemy_Slime>().SetupSlime(facingDir);
         }
     }
@@ -93,4 +94,9 @@ public class Enemy_Slime : Enemy
     }
 
     private void CancelKnockback() => isKnocked = false;
+
+    public override void resetEnemy()
+    {
+        base.resetEnemy();
+    }
 }

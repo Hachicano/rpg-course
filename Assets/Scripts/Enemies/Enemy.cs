@@ -9,6 +9,7 @@ using UnityEngine;
 public class Enemy : Entity
 {
     [SerializeField] protected LayerMask whatIsPlayer;
+    [SerializeField] public GameObject EnemySelfPrefab;
 
     [Header("Stunned Info")]
     [SerializeField] protected GameObject counterImage;
@@ -31,6 +32,7 @@ public class Enemy : Entity
     [HideInInspector] public float lastTimeAttacked;
 
     public EnemyStateMachine stateMachine { get; private set; }
+    public EnemyState defaultState;
     public string lastAnimBoolName { get; private set; }
 
     protected override void Awake()
@@ -114,6 +116,14 @@ public class Enemy : Entity
         return false;
     }
     #endregion
+
+    public virtual void resetEnemy()
+    {
+        ReturnDefaultSpeed();
+        canBeStunned = false;
+        lastTimeAttacked = 0;
+        isKnocked = false;
+    }
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     public virtual void AnimationSpecialAttackTrigger()

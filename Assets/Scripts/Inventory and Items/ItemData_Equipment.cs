@@ -72,7 +72,7 @@ public class ItemData_Equipment : ItemData
         playerStats.evasion.AddModifier(evasion);
         playerStats.magicResistance.AddModifier(magicResistance);
 
-        playerStats.fireDamge.AddModifier(fireDamge);
+        playerStats.fireDamage.AddModifier(fireDamge);
         playerStats.iceDamage.AddModifier(iceDamage);
         playerStats.shockDamage.AddModifier(shockDamage);
     }
@@ -94,7 +94,7 @@ public class ItemData_Equipment : ItemData
         playerStats.evasion.RemoveModifier(evasion);
         playerStats.magicResistance.RemoveModifier(magicResistance);
 
-        playerStats.fireDamge.RemoveModifier(fireDamge);
+        playerStats.fireDamage.RemoveModifier(fireDamge);
         playerStats.iceDamage.RemoveModifier(iceDamage);
         playerStats.shockDamage.RemoveModifier(shockDamage);
     }

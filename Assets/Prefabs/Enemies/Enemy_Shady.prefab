@@ -303,7 +303,7 @@ MonoBehaviour:
   magicResistance:
     baseValue: 0
     modifiers: []
-  fireDamge:
+  fireDamage:
     baseValue: 0
     modifiers: []
   iceDamage:
@@ -317,9 +317,13 @@ MonoBehaviour:
   isShocked: 0
   shockStrikePrefab: {fileID: 0}
   currentHealth: 0
+  isInvincible: 0
+  isVulnerable: 0
+  isDead: 0
   soulsDropAmount:
     baseValue: 0
     modifiers: []
+  souls: 100
   level: 1
   percentageModifier: 0.1
 --- !u!114 &5455397881496309988
@@ -400,6 +404,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  EnemySelfPrefab: {fileID: 2712793611563283147}
   counterImage: {fileID: 4192728816400745365}
   stunDuration: 1
   stunDirection: {x: 10, y: 12}

@@ -32,7 +32,11 @@ public class ShockStrikeController : MonoBehaviour
     void Update()
     {
         if (!targetStats)
+        {
+            Destroy(gameObject);
             return;
+        }
+
 
         if (triggered)
             return;

@@ -537,6 +537,7 @@ GameObject:
   - component: {fileID: 6418818337204150624}
   - component: {fileID: 2756680574608332944}
   - component: {fileID: 8113532533338602376}
+  - component: {fileID: 487292634776931915}
   m_Layer: 7
   m_Name: Enemy_Slime_Big
   m_TagString: Untagged
@@ -675,7 +676,7 @@ MonoBehaviour:
   magicResistance:
     baseValue: 0
     modifiers: []
-  fireDamge:
+  fireDamage:
     baseValue: 0
     modifiers: []
   iceDamage:
@@ -689,9 +690,13 @@ MonoBehaviour:
   isShocked: 0
   shockStrikePrefab: {fileID: 5569745078250540653, guid: 2df1eed0f323ec649bd038f0dc98aae1, type: 3}
   currentHealth: 0
+  isInvincible: 0
+  isVulnerable: 0
+  isDead: 0
   soulsDropAmount:
     baseValue: 0
     modifiers: []
+  souls: 100
   level: 1
   percentageModifier: 0.1
 --- !u!114 &6418818337204150624
@@ -772,6 +777,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  EnemySelfPrefab: {fileID: 6819551384977802647}
   counterImage: {fileID: 6276812988889716595}
   stunDuration: 2
   stunDirection: {x: 10, y: 12}
@@ -786,10 +792,23 @@ MonoBehaviour:
   maxAttackCooldown: 1
   lastTimeAttacked: 0
   slimeType: 0
-  slimesToCreate: 2
-  slimePrefab: {fileID: 6698869635496224464, guid: 61d4a94c7f91d70488394c635cf6a11a, type: 3}
+  slimesToCreateValue: 2
+  slimeToCreatePrefab: {fileID: 6698869635496224464, guid: 61d4a94c7f91d70488394c635cf6a11a, type: 3}
   minCreationVelocity: {x: 0, y: 0}
   maxCreationVelocity: {x: 0, y: 0}
+--- !u!114 &487292634776931915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819551384977802647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba95987d2da773459e8e95175814b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popCount: 0
 --- !u!1 &6849588653957668045
 GameObject:
   m_ObjectHideFlags: 0

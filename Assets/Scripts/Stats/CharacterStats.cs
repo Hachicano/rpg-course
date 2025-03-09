@@ -41,7 +41,7 @@ public class CharacterStats : MonoBehaviour
     public Stat magicResistance;
 
     [Header("Magic Stats")]
-    public Stat fireDamge;
+    public Stat fireDamage;
     public Stat iceDamage;
     public Stat shockDamage;
 
@@ -66,9 +66,9 @@ public class CharacterStats : MonoBehaviour
 
     public float currentHealth;
     public System.Action onHealthChanged;
-    public bool isInvincible {  get; private set; }
-    private bool isVulnerable;
-    public bool isDead { get; private set; }
+    public bool isInvincible;
+    public bool isVulnerable;
+    public bool isDead;
 
     protected virtual void Awake()
     {
@@ -78,7 +78,7 @@ public class CharacterStats : MonoBehaviour
     protected virtual void Start()
     {
         currentHealth = GetTotalMaxHealthValue();
-        critPower.SetDefaultValue(150);
+        critPower.SetBaseValue(150);
 
     }
 
@@ -203,7 +203,7 @@ public class CharacterStats : MonoBehaviour
     #region Magical damage and Ailments
     public virtual void DoMagicalDamage(CharacterStats _targetStats)
     {
-        float _fireDamage = fireDamge.GetValue();
+        float _fireDamage = fireDamage.GetValue();
         float _iceDamage = iceDamage.GetValue();
         float _shockDamage = shockDamage.GetValue();
         float totalMagicalDamge = intelligence.GetValue();
@@ -488,7 +488,7 @@ public class CharacterStats : MonoBehaviour
         else if (_statType == StatType.magicResistance)
             return magicResistance;
         else if (_statType == StatType.fireDamge)
-            return fireDamge;
+            return fireDamage;
         else if (_statType == StatType.iceDamage)
             return iceDamage;
         else if (_statType == StatType.shockDamage)

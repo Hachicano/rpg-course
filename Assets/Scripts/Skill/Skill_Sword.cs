@@ -175,7 +175,7 @@ public class Skill_Sword : Skill
                 newSwordScript.SetupPierce(pierceAmount);
                 break;
             case SwordType.Spin:
-                newSwordScript.SetupSpine(true, maxTravelDistance, spinDuration, hitCooldown);
+                newSwordScript.SetupSpin(true, maxTravelDistance, spinDuration, hitCooldown);
                 break;
         }
 
